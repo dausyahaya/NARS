@@ -36,7 +36,6 @@
               </div>
             </form>
           </div>
-        </br>
 
           <div class="col-lg-12">
             <form id="" name="">
@@ -46,18 +45,27 @@
                       <thead>
                         <tr>
                           <th>NO</th>
+                          <th style="width=300px">Store ID</th>
                           <th style="width=300px">Store Name</th>
+                          <th style="width=300px">Store Email</th>
                         </tr>
                       </thead>
                       <tbody>
-                        @foreach($store as $key => $data)
-                        <tr>
-                          <td>{{$data->Store}}</td>
-                          <td>{{$data->Name}}</td>
-                          <!-- <td><a href='{{ URL::to("/summarytable")}}'>Sample Name</a></td> -->
-
-                        </tr>
+                        <!-- <tr>
+                          <td>1</td>
+                          <td><a href='{{ URL::to("/summarytable")}}'>Sample Name</a></td>
+                        </tr> -->
+                        @foreach($Store as $index => $row)
+                            <tr>
+                                <td>{{$index+1}}</td>
+                                <td>{{$row->Store}}</td>
+                                <td>{{$row->Name}}</td>
+                                <td>{{$row->Email}}</td>
+                            </tr>
                         @endforeach
+
+
+
                       </tbody>
                     </table>
                 </div>
