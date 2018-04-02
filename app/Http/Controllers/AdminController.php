@@ -49,15 +49,13 @@ class AdminController extends Controller
 
          return view('admindashboard',['wallpaper'=>$wallpaper]);
      }
-     public function newstore() //edited by Firdaus 02/04/2018
+     public function newstore()
      {
        $wallpaper = DB::table('image')
        ->select('image.*')
        ->first();
 
-       $Store = DB::table('store_list')->get();
-
-         return view('newstore',['wallpaper'=>$wallpaper],['Store'=>$Store]);
+         return view('newstore',['wallpaper'=>$wallpaper]);
      }
      public function addstore(Request $request )
      {
@@ -86,15 +84,13 @@ class AdminController extends Controller
 
          return view('availablesummary',['wallpaper'=>$wallpaper]);
      }
-     public function newuser() //edited by Firdaus 02/04/2018
+     public function newuser()
      {
        $wallpaper = DB::table('image')
        ->select('image.*')
        ->first();
 
-       $users = DB::table('users')->get();
-
-         return view('newuser',['wallpaper'=>$wallpaper],['users'=>$users]);
+         return view('newuser',['wallpaper'=>$wallpaper]);
      }
      public function adduser(Request $request )
      {
@@ -433,13 +429,14 @@ class AdminController extends Controller
       public function importExcelSalesReceiptSummary()
       {
         $path = Input::file('import_file')->getRealPath();
-        $query = sprintf("LOAD DATA LOCAL INFILE '%s' INTO TABLE sales_receipt_summary
-                         FIELDS TERMINATED BY ','
-                         OPTIONALLY ENCLOSED BY '\"'
-                         LINES TERMINATED BY '\r\n' 
-                         IGNORE 5 LINES 
-                         (Customer_Name, @dummy, @dummy, Store, Rcpt, @Rcpt_date, @Rcpt_time, Tender_Name, @dummy, Ext_Orig_Price, @dummy, Ext_Disc, Ext_Disc_Amt, Ext_P, @dummy, Ext_PT, Rcpt_Tax_Amt, @dummy, Rcpt_Total)
-                         SET Rcpt_Date_Time=concat(@Rcpt_date, @Rcpt_time)",addslashes($path));
+        $path=addslashes($path);
+        $query = "LOAD DATA LOCAL INFILE '$path' INTO TABLE sales_receipt_summary
+                  FIELDS TERMINATED BY ','
+                  OPTIONALLY ENCLOSED BY '\"'
+                  LINES TERMINATED BY '\r\n' 
+                  IGNORE 5 LINES 
+                  (Customer_Name, @dummy, @dummy, Store, Rcpt, @Rcpt_date, @Rcpt_time, Tender_Name, @dummy, Ext_Orig_Price, @dummy, Ext_Disc, Ext_Disc_Amt, Ext_P, @dummy, Ext_PT, Rcpt_Tax_Amt, @dummy, Rcpt_Total)
+                  SET Rcpt_Date_Time=concat(STR_TO_DATE(@Rcpt_date, '%d/%m/%Y'), ' ', @Rcpt_time)";
 
         DB::connection()->getpdo()->exec($query);
         return back();
@@ -578,6 +575,17 @@ class AdminController extends Controller
                  {
       
                  })->get();
+                 
+                $query = sprintf("LOAD DATA LOCAL INFILE '%s' INTO TABLE total_sales_transaction
+                         FIELDS TERMINATED BY ','
+                         OPTIONALLY ENCLOSED BY '\"'
+                         LINES TERMINATED BY '\r\n' 
+                         IGNORE 1 LINES 
+                         (Store_Name, Customer_Name, INVC_No, Rolling_Month, DCS_Code, ALU, Item_Name, Year, Qty_Sold, Orig_Price, Sales, Disc, Price, Orig_Tax)",addslashes($path));
+
+                if(DB::connection()->getpdo()->exec($query))
+                   dd('Insert Record successfully.');
+                 /*
                  if(!empty($data) && $data->count())
                  {   
                      foreach ($data as $key => $value)
@@ -603,7 +611,7 @@ class AdminController extends Controller
                          DB::table('total_sales_transaction')->insert($insert);
                          dd('Insert Record successfully.');
                      }
-                 }
+                 } */
              }
       //       return back();
        }
