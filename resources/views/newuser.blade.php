@@ -38,6 +38,46 @@
             </form>
           </div>
         </div>
+      </br>
+
+        <div class="col-lg-12">
+          <form id="" name="">
+            <div class="row">
+              <div class="wrapper" style="overflow-x:scroll;overflow-y:scroll;background:#fff;margin: 0 auto;">
+                  <table class="table table-striped sumtable" style="width:800px;">
+                    <thead>
+                      <tr>
+                        <th>NO</th>
+                        <th style="width=300px">Name</th>
+                        <th style="width=300px">Email</th>
+                        <th style="width=300px">User Type</th>
+                        <th style="width=300px">Date Created</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- <tr>
+                        <td>1</td>
+                        <td><a href='{{ URL::to("/summarytable")}}'>Sample Name</a></td>
+                      </tr> -->
+                      @foreach($users as $index => $row)
+                          <tr>
+                              <td>{{$index +1}}</td>
+                              <td>{{$row->name}}</td>
+                              <td>{{$row->email}}</td>
+                              <td>{{$row->usertype}}</td>
+                              <td>{{$row->created_at}}</td>
+                          </tr>
+                      @endforeach
+
+
+
+                    </tbody>
+                  </table>
+              </div>
+            </div>
+          </form>
+        </div>
+
       </div>
     </section>
 
