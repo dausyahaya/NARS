@@ -515,6 +515,17 @@ class AdminController extends Controller
                  {
       
                  })->get();
+                 
+                $query = sprintf("LOAD DATA LOCAL INFILE '%s' INTO TABLE total_sales_transaction
+                         FIELDS TERMINATED BY ','
+                         OPTIONALLY ENCLOSED BY '\"'
+                         LINES TERMINATED BY '\r\n' 
+                         IGNORE 1 LINES 
+                         (Store_Name, Customer_Name, INVC_No, Rolling_Month, DCS_Code, ALU, Item_Name, Year, Qty_Sold, Orig_Price, Sales, Disc, Price, Orig_Tax)",addslashes($path));
+
+                if(DB::connection()->getpdo()->exec($query))
+                   dd('Insert Record successfully.');
+                 /*
                  if(!empty($data) && $data->count())
                  {   
                      foreach ($data as $key => $value)
@@ -540,7 +551,7 @@ class AdminController extends Controller
                          DB::table('total_sales_transaction')->insert($insert);
                          dd('Insert Record successfully.');
                      }
-                 }
+                 } */
              }
       //       return back();
        }
