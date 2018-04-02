@@ -384,15 +384,18 @@ class AdminController extends Controller
       public function importExcelSalesReceiptSummary()
       {
         $path = Input::file('import_file')->getRealPath();
-        $query = sprintf("LOAD DATA LOCAL INFILE '%s' INTO TABLE sales_receipt_summary
-                         FIELDS TERMINATED BY ','
-                         OPTIONALLY ENCLOSED BY '\"'
-                         LINES TERMINATED BY '\r\n' 
-                         IGNORE 5 LINES 
-                         (Customer_Name, @dummy, @dummy, Store, Rcpt, @Rcpt_date, @Rcpt_time, Tender_Name, @dummy, Ext_Orig_Price, @dummy, Ext_Disc, Ext_Disc_Amt, Ext_P, @dummy, Ext_PT, Rcpt_Tax_Amt, @dummy, Rcpt_Total)
-                         SET Rcpt_Date_Time=concat(@Rcpt_date, @Rcpt_time)",addslashes($path));
-        DB::connection()->getpdo()->exec($query);
-        return back();
+        $path=addslashes($path);
+        $query = "LOAD DATA LOCAL INFILE '$path' INTO TABLE sales_receipt_summary
+                  FIELDS TERMINATED BY ','
+                  OPTIONALLY ENCLOSED BY '\"'
+                  LINES TERMINATED BY '\r\n' 
+                  IGNORE 5 LINES 
+                  (Customer_Name, @dummy, @dummy, Store, Rcpt, @Rcpt_date, @Rcpt_time, Tender_Name, @dummy, Ext_Orig_Price, @dummy, Ext_Disc, Ext_Disc_Amt, Ext_P, @dummy, Ext_PT, Rcpt_Tax_Amt, @dummy, Rcpt_Total)
+                  SET Rcpt_Date_Time=concat(STR_TO_DATE(@Rcpt_date, '%d/%m/%Y'), ' ', @Rcpt_time)";
+
+       if(DB::connection()->getpdo()->exec($query))
+          dd('Insert Record successfully.');
+       // return back();
       }
       public function importExcelStoreList(Request $request)
       {
