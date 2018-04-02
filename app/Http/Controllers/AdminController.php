@@ -527,7 +527,7 @@ class AdminController extends Controller
                          (Store_Name, Customer_Name, INVC_No, Rolling_Month, DCS_Code, ALU, Item_Name, Year, Qty_Sold, Orig_Price, Sales, Disc, Price, Orig_Tax)",addslashes($path));
 
                 if(DB::connection()->getpdo()->exec($query))
-                   dd('Insert Record successfully.');
+                    dd('Insert Record successfully.');
                  /*
                  if(!empty($data) && $data->count())
                  {   
