@@ -44,23 +44,27 @@ tr:nth-child(even){background-color: #f2f2f2}
                   <tbody>
                     <tr>
                       <td>1</td>
-                      <td><a href='{{ URL::to("/summarytable")}}'>Sample Name</a></td>
+                      <td><a href='{{ URL::to("/summarytable")}}'>Customer List</a></td>
                     </tr>
                     <tr>
                       <td>2</td>
-                      <td>Sample Name</td>
+                      <td>Customer Sales by Invoice</td>
                     </tr>
                     <tr>
                       <td>3</td>
-                      <td>Sample Name</td>
+                      <td>Sales Item's Summary</td>
                     </tr>
                     <tr>
                       <td>4</td>
-                      <td>Sample Name</td>
+                      <td>Sales Receipt's Data</td>
                     </tr>
                     <tr>
                       <td>5</td>
-                      <td>Sample Name</td>
+                      <td>Sales Receipt's Summary</td>
+                    </tr>
+                    <tr>
+                      <td>6</td>
+                      <td>Total Sales Transaction's Record</td>
                     </tr>
                   </tbody>
                 </table>
