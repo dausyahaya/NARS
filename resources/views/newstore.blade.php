@@ -16,6 +16,8 @@
                 {{ csrf_field() }}
               <div class="row">
                   <div class="form-group">
+                    <input class="form-control" id="storeid" name="store_id" type="text" placeholder="Store ID">
+                    <p></p>
                     <input class="form-control" id="storename" name="store_name" type="text" placeholder="Store Name">
                     <p></p>
                     <input class="form-control" id="storeemail" name="store_email" type="email" placeholder="Store Email">
@@ -34,6 +36,35 @@
               </div>
             </form>
           </div>
+        </br>
+
+          <div class="col-lg-12">
+            <form id="" name="">
+              <div class="row">
+                <div class="wrapper" style="overflow-x:scroll;overflow-y:scroll;background:#fff;margin: 0 auto;">
+                    <table class="table table-striped sumtable" style="width:800px;">
+                      <thead>
+                        <tr>
+                          <th>NO</th>
+                          <th style="width=300px">Store Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @foreach($store as $key => $data)
+                        <tr>
+                          <td>{{$data->Store}}</td>
+                          <td>{{$data->Name}}</td>
+                          <!-- <td><a href='{{ URL::to("/summarytable")}}'>Sample Name</a></td> -->
+
+                        </tr>
+                        @endforeach
+                      </tbody>
+                    </table>
+                </div>
+              </div>
+            </form>
+          </div>
+
         </div>
       </div>
     </section>
