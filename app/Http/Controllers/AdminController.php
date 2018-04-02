@@ -49,13 +49,15 @@ class AdminController extends Controller
 
          return view('admindashboard',['wallpaper'=>$wallpaper]);
      }
-     public function newstore()
+     public function newstore() //edited by Firdaus 02/04/2018
      {
        $wallpaper = DB::table('image')
        ->select('image.*')
        ->first();
 
-         return view('newstore',['wallpaper'=>$wallpaper]);
+       $Store = DB::table('store_list')->get();
+
+         return view('newstore',['wallpaper'=>$wallpaper],['Store'=>$Store]);
      }
      public function addstore(Request $request )
      {
@@ -84,13 +86,15 @@ class AdminController extends Controller
 
          return view('availablesummary',['wallpaper'=>$wallpaper]);
      }
-     public function newuser()
+     public function newuser() //edited by Firdaus 02/04/2018
      {
        $wallpaper = DB::table('image')
        ->select('image.*')
        ->first();
 
-         return view('newuser',['wallpaper'=>$wallpaper]);
+       $users = DB::table('users')->get();
+
+         return view('newuser',['wallpaper'=>$wallpaper],['users'=>$users]);
      }
      public function adduser(Request $request )
      {
