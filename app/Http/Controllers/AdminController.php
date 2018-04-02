@@ -1,13 +1,10 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Excel;
 Use App\Store_list;
-
 class AdminController extends Controller
 {
     /**
@@ -19,7 +16,6 @@ class AdminController extends Controller
     // {
     //     $this->middleware('auth');
     // }
-
     /**
      * Show the application dashboard.
      *
@@ -30,7 +26,6 @@ class AdminController extends Controller
        $wallpaper = DB::table('image')
        ->select('image.*')
        ->first();
-
          return view('auth.login',['wallpaper'=>$wallpaper]);
      }
      public function setting()
@@ -38,7 +33,6 @@ class AdminController extends Controller
        $wallpaper = DB::table('image')
        ->select('image.*')
        ->first();
-
         return view('setting',['wallpaper'=>$wallpaper]);
      }
      public function admindashboard()
@@ -46,21 +40,19 @@ class AdminController extends Controller
        $wallpaper = DB::table('image')
        ->select('image.*')
        ->first();
-
          return view('admindashboard',['wallpaper'=>$wallpaper]);
      }
-     public function newstore()
+     public function newstore() //edited by Firdaus 02/04/2018
      {
        $wallpaper = DB::table('image')
        ->select('image.*')
        ->first();
-
-         return view('newstore',['wallpaper'=>$wallpaper]);
+       $Store = DB::table('store_list')->get();
+         return view('newstore',['wallpaper'=>$wallpaper],['Store'=>$Store]);
      }
      public function addstore(Request $request )
      {
        $input = $request->all();
-
          $id = DB::table('users')->insertGetId(
            [
              'name' => $input["store_name"],
@@ -69,11 +61,9 @@ class AdminController extends Controller
              'usertype' => $input["usertype"],
            ]
          );
-
          $wallpaper = DB::table('image')
          ->select('image.*')
          ->first();
-
          return view('addstoremessage',['wallpaper'=>$wallpaper]);
      }
      public function availablesummary()
@@ -81,21 +71,19 @@ class AdminController extends Controller
        $wallpaper = DB::table('image')
        ->select('image.*')
        ->first();
-
          return view('availablesummary',['wallpaper'=>$wallpaper]);
      }
-     public function newuser()
+     public function newuser() //edited by Firdaus 02/04/2018
      {
        $wallpaper = DB::table('image')
        ->select('image.*')
        ->first();
-
-         return view('newuser',['wallpaper'=>$wallpaper]);
+       $users = DB::table('users')->get();
+         return view('newuser',['wallpaper'=>$wallpaper],['users'=>$users]);
      }
      public function adduser(Request $request )
      {
        $input = $request->all();
-
          $id = DB::table('users')->insertGetId(
            [
              'name' => $input["username"],
@@ -104,11 +92,9 @@ class AdminController extends Controller
              'usertype' => $input["usertype"],
            ]
          );
-
          $wallpaper = DB::table('image')
          ->select('image.*')
          ->first();
-
          return view('addusermessage',['wallpaper'=>$wallpaper]);
      }
      public function addusermessage()
@@ -116,7 +102,6 @@ class AdminController extends Controller
        $wallpaper = DB::table('image')
        ->select('image.*')
        ->first();
-
          return view('addusermessage',['wallpaper'=>$wallpaper]);
      }
      public function addstoremessage()
@@ -124,7 +109,6 @@ class AdminController extends Controller
        $wallpaper = DB::table('image')
        ->select('image.*')
        ->first();
-
          return view('addstoremessage',['wallpaper'=>$wallpaper]);
      }
      public function stock()
@@ -132,24 +116,20 @@ class AdminController extends Controller
        $wallpaper = DB::table('image')
        ->select('image.*')
        ->first();
-
          return view('stock',['wallpaper'=>$wallpaper]);
      }
      public function newstock(Request $request)
      {
        $input = $request->all();
-
          $id = DB::table('stocks')->insertGetId(
            [
              'Name' => $input["itemname"],
              'Quantity' => $input["quantity"],
            ]
          );
-
          $wallpaper = DB::table('image')
          ->select('image.*')
          ->first();
-
          return view('stock',['wallpaper'=>$wallpaper]);
      }
      public function changewallpaper()
@@ -157,7 +137,6 @@ class AdminController extends Controller
        $wallpaper = DB::table('image')
        ->select('image.*')
        ->first();
-
          return view('changewallpaper',['wallpaper'=>$wallpaper]);
      }
      public function savewallpaper(Request $request)
@@ -181,11 +160,9 @@ class AdminController extends Controller
     					 'Web_Path' => '/private/upload/User/'.$fileName
     					]
     				);
-
             $wallpaper = DB::table('image')
             ->select('image.*')
             ->first();
-
     				return view('savewallpapermessage',['wallpaper'=>$wallpaper]);
     			}
     			else {
@@ -197,33 +174,24 @@ class AdminController extends Controller
         $wallpaper = DB::table('image')
         ->select('image.*')
         ->first();
-
         return view('savewallpapermessage',['wallpaper'=>$wallpaper]);
       }
       public function import(){
-
         $wallpaper = DB::table('image')
         ->select('image.*')
         ->first();
-
         return view ('import',['wallpaper'=>$wallpaper]);
-
       }
       public function importedfiles(){
-
         $wallpaper = DB::table('image')
         ->select('image.*')
         ->first();
-
         return view ('importedfiles',['wallpaper'=>$wallpaper]);
-
       }
-
       public function importExport()
       {
           return view('importExport');
       }
-
       // Firdaus - 21/3/2018
       // public function downloadExcel($type)
       // {
@@ -236,7 +204,6 @@ class AdminController extends Controller
       //           });
       //     })->download($type);
       // }
-
       public function importExcelCustomerList()
       {
           if(Input::hasFile('import_file')){
@@ -245,7 +212,6 @@ class AdminController extends Controller
                 $path = Input::file('import_file')->getRealPath();
                 $data = Excel::load($path, function($reader)
                 {
-
                 })->get();
                 $query = sprintf("LOAD DATA LOCAL INFILE '%s' INTO TABLE customer_list
             FIELDS TERMINATED BY ','
@@ -253,7 +219,6 @@ class AdminController extends Controller
             LINES TERMINATED BY '\n'
             IGNORE 1 LINES 
             (`Str_Code`,`Cust_ID`,`Last`,`First`,`Phone1`,`Info1`,`Last_Sale_Dt`,`Category`,`Prc_Lvl`,`Name`,`Total_Unit`,`Total_Sale`,`Total_Trans`,`Visits`,`Created_By`,`Create_Dt`,`Race`,`Region`,`Email`)", addslashes($path));
-
             DB::connection()->getpdo()->exec($query);
             /*
                 if(!empty($data) && $data->count())
@@ -293,7 +258,6 @@ class AdminController extends Controller
           }
       }
       
-
       public function importExcelCustomerSales(Request $request)
       {  
          // if(Input::get('import_file') == 'ca')
@@ -312,7 +276,6 @@ class AdminController extends Controller
             LINES TERMINATED BY '\\n' 
             IGNORE 3 LINES 
             (Store_Name ,Customer_Name,Email_Addr,ALU,Item_Name,DCS_Code,INVC_No,Qty_Sold,Orig_Price,Sales,Disc,Price,Orig_Tax)",addslashes($path));
-
             DB::connection()->getpdo()->exec($query);
             /*
             if(!empty($data) && $data->count())
@@ -342,7 +305,6 @@ class AdminController extends Controller
               for ($i = 0; $i < $skip; $i++) {
                   fgets($handle);
               }
-
               while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
                   $num = count($data);
                   $row++;
@@ -362,10 +324,7 @@ class AdminController extends Controller
           //}
         }
          return back();
-
       }
-
-
       public function importExcelSalesItemSummary()
       {
           if(Input::hasFile('import_file'))
@@ -373,7 +332,6 @@ class AdminController extends Controller
                 $path = Input::file('import_file')->getRealPath();
                 $data = Excel::load($path, function($reader)
                 {
-
                 })->get();
                 $query = sprintf("LOAD DATA LOCAL INFILE '%s' INTO TABLE sales_item_summary
                          FIELDS TERMINATED BY ','
@@ -381,7 +339,6 @@ class AdminController extends Controller
                          LINES TERMINATED BY '\r\n' 
                          IGNORE 6 LINES 
                          (DCS_Code, D, C, S, Description1, @dummy, @dummy, @dummy, ALU, UPC, @dummy, Qty_Sold, Disc, @dummy, Disc_Amt, @dummy, Ext_P, @dummy, Ext_PT)",addslashes($path));
-
                 DB::connection()->getpdo()->exec($query);
                 /*
                 if(!empty($data) && $data->count())
@@ -401,7 +358,6 @@ class AdminController extends Controller
                                                           // 'Disc_Amt' => $value->{'Disc Amt'},
                                                           // 'Ext_P' => $value->{'Ext P$'},
                                                           // 'Ext_PT' => $value->{'Ext P$T$'}
-
                                                           'DCS_Code' => $value->dcs_code,
                                                           'D' => $value->d,
                                                           'C' => $value->c,
@@ -425,37 +381,28 @@ class AdminController extends Controller
             }
             return back();
       }
-
       public function importExcelSalesReceiptSummary()
       {
         $path = Input::file('import_file')->getRealPath();
-        $path=addslashes($path);
-        $query = "LOAD DATA LOCAL INFILE '$path' INTO TABLE sales_receipt_summary
-                  FIELDS TERMINATED BY ','
-                  OPTIONALLY ENCLOSED BY '\"'
-                  LINES TERMINATED BY '\r\n' 
-                  IGNORE 5 LINES 
-                  (Customer_Name, @dummy, @dummy, Store, Rcpt, @Rcpt_date, @Rcpt_time, Tender_Name, @dummy, Ext_Orig_Price, @dummy, Ext_Disc, Ext_Disc_Amt, Ext_P, @dummy, Ext_PT, Rcpt_Tax_Amt, @dummy, Rcpt_Total)
-                  SET Rcpt_Date_Time=concat(STR_TO_DATE(@Rcpt_date, '%d/%m/%Y'), ' ', @Rcpt_time)";
-
+        $query = sprintf("LOAD DATA LOCAL INFILE '%s' INTO TABLE sales_receipt_summary
+                         FIELDS TERMINATED BY ','
+                         OPTIONALLY ENCLOSED BY '\"'
+                         LINES TERMINATED BY '\r\n' 
+                         IGNORE 5 LINES 
+                         (Customer_Name, @dummy, @dummy, Store, Rcpt, @Rcpt_date, @Rcpt_time, Tender_Name, @dummy, Ext_Orig_Price, @dummy, Ext_Disc, Ext_Disc_Amt, Ext_P, @dummy, Ext_PT, Rcpt_Tax_Amt, @dummy, Rcpt_Total)
+                         SET Rcpt_Date_Time=concat(@Rcpt_date, @Rcpt_time)",addslashes($path));
         DB::connection()->getpdo()->exec($query);
         return back();
       }
-
       public function importExcelStoreList(Request $request)
       {
           if(Input::get('import_file') == 'ca'){
-
           //get file
           $upload=$request->file('import_file');
           $filePath=$upload->getRealPath();
-
           //open and read
           //$file=fopen($filePath, 'r');
           //$header = fgetcsv($file);
-
-
-
           //skip header (6 rows)
           $row = 1;
           $skip = 6;
@@ -463,7 +410,6 @@ class AdminController extends Controller
               for ($i = 0; $i < $skip; $i++) {
                   fgets($handle);
               }
-
               while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
                   $num = count($data);
                   $row++;
@@ -473,7 +419,6 @@ class AdminController extends Controller
                       $insert[]  = [
                                           'Store' =>  $data[0],
                                           'Name'  =>  $data[1]
-
                                    ];
               }
               if(!empty($insert))
@@ -486,9 +431,7 @@ class AdminController extends Controller
           }
         }
          // return back();
-
       }
-
       public function importExcelItem()
       {
           if(Input::hasFile('import_file'))
@@ -496,7 +439,6 @@ class AdminController extends Controller
                 $path = Input::file('import_file')->getRealPath();
                 $data = Excel::load($path, function($reader)
                 {
-
                 })->get();
                 if(!empty($data) && $data->count())
                 {
@@ -519,7 +461,6 @@ class AdminController extends Controller
             }
             return back();
       }
-
       // Import csv for Customer List
       // public function importExcelCustomerList()
       // {
@@ -564,7 +505,6 @@ class AdminController extends Controller
       //       }
       //       return back();
       // }
-
       // Import csv for Total Sales Transaction Record
        public function importExcelTotalSalesTransactionRecord()
        {
@@ -575,17 +515,6 @@ class AdminController extends Controller
                  {
       
                  })->get();
-                 
-                $query = sprintf("LOAD DATA LOCAL INFILE '%s' INTO TABLE total_sales_transaction
-                         FIELDS TERMINATED BY ','
-                         OPTIONALLY ENCLOSED BY '\"'
-                         LINES TERMINATED BY '\r\n' 
-                         IGNORE 1 LINES 
-                         (Store_Name, Customer_Name, INVC_No, Rolling_Month, DCS_Code, ALU, Item_Name, Year, Qty_Sold, Orig_Price, Sales, Disc, Price, Orig_Tax)",addslashes($path));
-
-                if(DB::connection()->getpdo()->exec($query))
-                   dd('Insert Record successfully.');
-                 /*
                  if(!empty($data) && $data->count())
                  {   
                      foreach ($data as $key => $value)
@@ -611,7 +540,7 @@ class AdminController extends Controller
                          DB::table('total_sales_transaction')->insert($insert);
                          dd('Insert Record successfully.');
                      }
-                 } */
+                 }
              }
       //       return back();
        }
