@@ -19,7 +19,7 @@ Route::get('membership',  'HomeController@membership');
 Route::get('register', 'HomeController@register');
 Route::get('promocode', 'HomeController@promocode');
 Route::get('spinner', 'HomeController@spinner');
-Route::get('summarytable', 'HomeController@summarytable');
+Route::get('summaryredemption', 'HomeController@summaryredemption');
 Route::get('redemptmethod', 'HomeController@redemptmethod');
 Route::get('product', 'HomeController@product');
 Route::get('memberregister', 'HomeController@memberregister');
