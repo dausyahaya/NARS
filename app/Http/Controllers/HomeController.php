@@ -211,14 +211,14 @@ class HomeController extends Controller
 
         return view('spinner',['store'=>$store,'current'=>$current,'wallpaper'=>$wallpaper]);
     }
-    public function summarytable()
+    public function summaryredemption()
     {
 
       $wallpaper = DB::table('image')
       ->select('image.*')
       ->first();
 
-        return view('summarytable',['wallpaper'=>$wallpaper]);
+        return view('summaryredemption',['wallpaper'=>$wallpaper]);
     }
     public function redemptmethod()
     {
