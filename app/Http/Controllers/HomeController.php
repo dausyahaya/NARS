@@ -211,15 +211,40 @@ class HomeController extends Controller
 
         return view('spinner',['store'=>$store,'current'=>$current,'wallpaper'=>$wallpaper]);
     }
-    public function summaryredemption()
+    
+    public function summaryredemption() //Firdaus - 03/04/2018
     {
 
       $wallpaper = DB::table('image')
       ->select('image.*')
       ->first();
 
-        return view('summaryredemption',['wallpaper'=>$wallpaper]);
+      $redemption1 = DB::table('redemption')
+          ->join('store_list', 'redemption.store', '=', 'store_list.Store')
+          ->select('redemption.*','store_list.Store','store_list.Name')
+          ->get();
+
+      $redemption4 = DB::table('redemption')
+          ->join('customer_list', 'redemption.customer_id', '=', 'customer_list.Cust_ID')
+          ->select('customer_list.*','redemption.redemption_id')
+          ->get();
+
+      $redemption5 = DB::table('redemption')
+          ->join('customer_list', 'redemption.customer_id', '=', 'customer_list.Cust_ID')
+          ->select('customer_list.*','redemption.redemption_id')
+          ->get();
+
+      $redemption6 = DB::table('redemption')
+          ->join('customer_list', 'redemption.customer_id', '=', 'customer_list.Cust_ID')
+          ->select('customer_list.*','redemption.redemption_id')
+          //->sum()
+          ->get();
+
+
+        return view('summaryredemption',['wallpaper'=>$wallpaper],['redemption1'=>$redemption1])->with(['redemption4'=>$redemption4])->with(['redemption5'=>$redemption5])
+        ->with(['redemption6'=>$redemption6]);
     }
+    
     public function redemptmethod()
     {
       $redemptgift = DB::table('redemptmethod')
