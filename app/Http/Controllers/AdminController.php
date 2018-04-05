@@ -260,7 +260,7 @@ class AdminController extends Controller
       
       public function importExcelCustomerSales(Request $request)
       {  
-         // if(Input::get('import_file') == 'ca')
+         if(Input::hasFile('import_file'))
           {
           //get file
           $upload=$request->file('import_file');
@@ -383,6 +383,8 @@ class AdminController extends Controller
       }
       public function importExcelSalesReceiptSummary()
       {
+        if(Input::hasFile('import_file'))
+        {
         $path = Input::file('import_file')->getRealPath();
         $path=addslashes($path);
         $query = "LOAD DATA LOCAL INFILE '$path' INTO TABLE sales_receipt_summary
@@ -396,6 +398,7 @@ class AdminController extends Controller
        if(DB::connection()->getpdo()->exec($query))
           dd('Insert Record successfully.');
        // return back();
+       
       }
       public function importExcelStoreList(Request $request)
       {
@@ -511,7 +514,7 @@ class AdminController extends Controller
       // Import csv for Total Sales Transaction Record
        public function importExcelTotalSalesTransactionRecord()
        {
-          // if(Input::hasFile('import_file'))
+           if(Input::hasFile('import_file'))
            {     
                  $path = Input::file('import_file')->getRealPath();
                  $data = Excel::load($path, function($reader)
@@ -559,4 +562,20 @@ class AdminController extends Controller
       //       return back();
        }
       // Firdaus - 21/3/2018
+    
+     public function importExcel(Request $request)
+      {
+        if(Input::get('import_file_option') == 'customer_list')
+            return $this->importExcelCustomerList();
+        else if(Input::get('import_file_option') == 'customer_sales')
+            return $this->importExcelCustomerSales($request);
+        else if(Input::get('import_file_option') == 'sales_item_summary')
+            return $this->importExcelSalesItemSummary();
+        else if(Input::get('import_file_option') == 'sales_receipt_data')
+            return $this->importExcelSalesReceiptData();
+        else if(Input::get('import_file_option') == 'sales_receipt_summary')
+            return $this->importExcelSalesReceiptSummary();
+        else if(Input::get('import_file_option') == 'total_sales_transaction_record')
+            return $this->importExcelTotalSalesTransactionRecord();
+      }
 }
