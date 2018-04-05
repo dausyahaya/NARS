@@ -48,23 +48,7 @@ tr:nth-child(even){background-color: #f2f2f2}
                     </tr>
                     <tr>
                       <td>2</td>
-                      <td>Customer Sales by Invoice</td>
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <td>Sales Item's Summary</td>
-                    </tr>
-                    <tr>
-                      <td>4</td>
-                      <td>Sales Receipt's Data</td>
-                    </tr>
-                    <tr>
-                      <td>5</td>
-                      <td>Sales Receipt's Summary</td>
-                    </tr>
-                    <tr>
-                      <td>6</td>
-                      <td>Total Sales Transaction's Record</td>
+                      <td><a href='{{ URL::to("/summarysales")}}'>Sales</a></td>
                     </tr>
                   </tbody>
                 </table>
