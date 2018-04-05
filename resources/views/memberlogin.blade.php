@@ -46,7 +46,7 @@
               <div id="success"></div>
               <button id="memberLoginButton" class="btn btn-primary btn-xl text-uppercase" type="submit">Login</button>
               <br>
-              <a href='{{ URL::to("/membership")}}'>BACK</a>
+              <a href='{{ URL::to("/home")}}'>BACK</a>
             </div>
           </div>
         </form>
