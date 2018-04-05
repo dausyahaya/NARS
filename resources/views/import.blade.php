@@ -14,7 +14,7 @@
         <div class="row">
           <div class="col-lg-12">
             <!-- <form action="{{ URL::to('importExcelCustomerList') }}" class="form-horizontal" method="post" enctype="multipart/form-data"> -->
-              <form action="{{ URL::to('importExcelSalesReceiptSummary') }}" class="form-horizontal" method="post" enctype="multipart/form-data">
+              <form action="{{ URL::to('importExcel') }}" class="form-horizontal" method="post" enctype="multipart/form-data">
              <!-- <form action="{{ URL::to('importExcelStoreList') }}" class="form-horizontal" method="post" enctype="multipart/form-data"> -->
                <div class="row">
                 <div class="col-lg-12 text-center" style="padding-bottom:40px;">
