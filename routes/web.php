@@ -20,6 +20,7 @@ Route::get('register', 'HomeController@register');
 Route::get('promocode', 'HomeController@promocode');
 Route::get('spinner', 'HomeController@spinner');
 Route::get('summaryredemption', 'HomeController@summaryredemption');
+Route::get('summarysales', 'HomeController@summarysales');
 Route::get('redemptmethod', 'HomeController@redemptmethod');
 Route::get('product', 'HomeController@product');
 Route::get('memberregister', 'HomeController@memberregister');
