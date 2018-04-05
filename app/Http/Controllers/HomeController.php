@@ -98,13 +98,13 @@ class HomeController extends Controller
 
       if($icno)
       {
-        $member=DB::table('member')
+        $member=DB::table('customer_list')
         ->whereRaw('IC_No="'.$icno.'"')
         ->get();
       }
       elseif($contactnumber)
       {
-        $member=DB::table('member')//from phpmyadmin
+        $member=DB::table('customer_list')//from phpmyadmin
         ->whereRaw('Contact_No="'.$contactnumber.'"')
         ->get();
       }
@@ -113,10 +113,10 @@ class HomeController extends Controller
        {
          $input = $request->all();
 
-         $member = DB::table('member')
-         ->whereRaw('Contact_No="'.$contactnumber.'" OR IC_No="'.$icno.'"')
+         $member = DB::table('customer_list')
+         ->where('Contact_No', $contactnumber)
+         ->orwhere('IC_No', $icno)
          ->get();
-
          return view('identityconfirmation',['member'=>$member,'store'=>$store,'current'=>$current,'wallpaper'=>$wallpaper]);
        }else {
         return Redirect::to('/memberlogin')->with('message', 'Ops your data is incorrect');
