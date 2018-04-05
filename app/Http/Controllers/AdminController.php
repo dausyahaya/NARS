@@ -328,6 +328,98 @@ class AdminController extends Controller
         }
          return back();
       }
+    public function importExcelSalesReceiptData(Request $request)
+      {
+        $path = Input::file('import_file')->getRealPath();
+        $upload=$request->file('import_file');
+        $filePath=$upload->getRealPath();
+        $row = 0;
+        $count=0;
+        $skip = 7;
+        $lastrow=0;
+        if (($handle = fopen($filePath, 'r')) !== FALSE) {
+            for ($i = 0; $i < $skip; $i++) 
+            {
+                fgets($handle);
+            }
+            
+            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) 
+            {
+                $num = count($data);
+                foreach ($data as $key => $value)
+                {   
+                    $count++;
+                    if ($value == "")
+                       $count-=1;
+                    if(!($count > 0))
+                       $lastrow=1;
+                    
+                }
+                
+                if ($count == 13)
+                {
+                    $obj=[
+                                'Customer' => $data[0],
+                                'Store' => $data[1],
+                                'Rcpt' => $data[2],
+                                'Rcpt_Date' => date('Y-m-d',strtotime(str_replace('/', '-',$data[3]))),
+                                'Rcpt_Date_Time' => $data[4],
+                                'Tender_Name' => $data[5],
+                                'Ext_Orig_Price' => $data[6],
+                                'Disc' => $data[7],
+                                'Ext_Disc_Amt' => $data[8],
+                                'Ext_P' => $data[9],
+                                'Ext_PT' => $data[10],
+                                'Rcpt_Tax_Amt' => $data[11],
+                                'Rcpt_Amt' => $data[12],
+                    ];
+                }
+                if($count == 8)
+                {  
+                    $insert[]=[
+                        'Customer' => $obj["Customer"],
+                        'Store' => $obj["Store"],
+                        'Rcpt' => $obj["Rcpt"],
+                        'Rcpt_Date' => $obj["Rcpt_Date"],
+                        'Rcpt_Date_Time' => $obj["Rcpt_Date_Time"],
+                        'Tender_Name' => $obj["Tender_Name"],
+                        'Ext_Orig_Price' => $obj["Ext_Orig_Price"],
+                        'Disc' => $obj["Disc"],
+                        'Ext_Disc_Amt' => $obj["Ext_Disc_Amt"],
+                        'Ext_P' => $obj["Ext_P"],
+                        'Ext_PT' => $obj["Ext_PT"],
+                        'Rcpt_Tax_Amt' => $obj["Rcpt_Tax_Amt"],
+                        'Rcpt_Amt' => $obj["Rcpt_Amt"],
+                        'UPC' => $data[0],
+                        'ALU' => $data[1],
+                        'DCS' => $data[2],
+                        'Size' => $data[3],
+                        'Desc1' => $data[4],
+                        'Sold_Qty' => $data[5],
+                        'P' => $data[6],
+                        'PT' => $data[7],
+                        'Cost' => $data[8]
+                    ];
+                }
+                
+                $count =0;
+                $row++;
+                unset($data);
+                if($row == 900 || $lastrow == 1)
+                {
+                    if(!empty($insert))
+                    {
+                        DB::table('sales_receipt_data')->insert($insert);
+                        //dd('Insert Record successfully.');
+                    } 
+                    $row=0;
+                    unset($insert);
+                }
+                
+            }
+        }
+        dd('Insert Record successfully.');
+      }
       public function importExcelSalesItemSummary()
       {
           if(Input::hasFile('import_file'))
