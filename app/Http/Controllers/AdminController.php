@@ -50,20 +50,23 @@ class AdminController extends Controller
        $Store = DB::table('store_list')->get();
          return view('newstore',['wallpaper'=>$wallpaper],['Store'=>$Store]);
      }
-     public function addstore(Request $request )
+     public function addstore(Request $request)
      {
        $input = $request->all();
-         $id = DB::table('users')->insertGetId(
+
+        $id = DB::table('store_list')->insertGetId(
            [
-             'name' => $input["store_name"],
-             'email' => $input["store_email"],
-             'password' => bcrypt($input["store_password"]),
-             'usertype' => $input["usertype"],
+             'Store' => $input["store_id"],
+             'Name' => $input["store_name"],
+             'Email' => $input["store_email"],
+             'Password' => bcrypt($input["store_password"]),
            ]
          );
+
          $wallpaper = DB::table('image')
          ->select('image.*')
          ->first();
+
          return view('addstoremessage',['wallpaper'=>$wallpaper]);
      }
      public function availablesummary()
