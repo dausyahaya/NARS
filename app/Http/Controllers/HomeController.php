@@ -219,25 +219,39 @@ class HomeController extends Controller
 
         return view('spinner',['store'=>$store,'current'=>$current,'wallpaper'=>$wallpaper]);
     }
-    public function summaryredemption() //Firdaus - 03/04/2018
+        public function summaryredemption() //Firdaus - 03/04/2018
     {
 
       $wallpaper = DB::table('image')
       ->select('image.*')
       ->first();
 
-      // $redemption1 = DB::table('redemption')
-      //     ->join('store_list', 'redemption.store', '=', 'store_list.Store')
-      //     ->select('redemption.*','store_list.Store','store_list.Name')
-      //     ->get();
+      $redemption1 = DB::table('redemption')
+          ->join('store_list', 'redemption.store', '=', 'store_list.Store')
+          ->select('redemption.*','store_list.Store','store_list.Name',DB::raw('COUNT(redemption.redemption_id) AS total_quantity'))
+          ->groupby('store_list.Name')
+          ->orderby('store_list.Store')
+          ->get();
 
-      $redemption1 = DB::select(DB::raw('
-      SELECT s.Name, s.Store, r.redemption_alu, r.redemption_dcs, COUNT(r.redemption_id) AS total_quantity
-      FROM redemption r
-      LEFT JOIN store_list s ON (s.Store = r.store)
-      GROUP BY s.Name
-      ORDER BY s.Store ASC
-      '),array('redemption1'=>$redemption1));
+      // $redemption1 = DB::select(DB::raw('
+      // SELECT s.Name, s.Store, r.redemption_alu, r.redemption_dcs, COUNT(r.redemption_id) AS total_quantity
+      // FROM redemption r
+      // LEFT JOIN store_list s ON (s.Store = r.store)
+      // GROUP BY s.Name
+      // ORDER BY s.Store ASC
+      // '));
+
+      $redemption4 = DB::table('redemption')
+          ->rightjoin('customer_list', 'redemption.customer_id', '=', 'customer_list.Cust_ID')
+          ->select('redemption.*','customer_list.Name','customer_list.DOB','customer_list.Category','customer_list.Region','customer_list.Race','customer_list.Email')
+          ->orderby('redemption.redemption_id')
+          ->get();
+
+      $redemption6 = DB::table('redemption')
+          ->rightjoin('customer_list', 'redemption.customer_id', '=', 'customer_list.Cust_ID')
+          ->select('redemption.*','customer_list.Name','customer_list.DOB','customer_list.Total_Unit','customer_list.Visits','customer_list.Total_Sale')
+          ->orderby('customer_list.Name')
+          ->get();
 
       // $redemption1_1 = DB::table('redemption')
       //     ->sum('redemption_quantity')
@@ -281,7 +295,8 @@ class HomeController extends Controller
       //     ->get();
 
 
-        return view('summaryredemption',['wallpaper'=>$wallpaper],['redemption1'=>$redemption1])->with(['redemption2'=>$redemption2]);
+        return view('summaryredemption',['wallpaper'=>$wallpaper],['redemption1'=>$redemption1])->with(['redemption2'=>$redemption2])->with(['redemption4'=>$redemption4])
+        ->with(['redemption6'=>$redemption6]);
     }
 
     public function summarysales() //Firdaus - 03/04/2018
@@ -291,29 +306,20 @@ class HomeController extends Controller
       ->select('image.*')
       ->first();
 
-      $redemption1 = DB::table('redemption')
-          ->join('store_list', 'redemption.store', '=', 'store_list.Store')
-          ->select('redemption.*','store_list.Store','store_list.Name')
+      $sales3 = DB::table('sales_receipt_summary')
+          ->rightjoin('store_list', 'sales_receipt_summary.Store', '=', 'store_list.Store')
+          ->select('sales_receipt_summary.*','store_list.Name')
+          ->orderby('store_list.Store','ASC')
           ->get();
 
-      // $redemption4 = DB::table('redemption')
-      //     ->join('customer_list', 'redemption.customer_id', '=', 'customer_list.Cust_ID')
-      //     ->select('customer_list.*','redemption.redemption_id')
-      //     ->get();
+      $sales5 = DB::table('customer_list')
+          ->join('store_list', 'customer_list.Str_Code', '=', 'store_list.Store')
+          ->select('store_list.*',DB::raw('COUNT(CASE WHEN customer_list.Region = "Malaysia" THEN 1 ELSE NULL END) as "Local"'),DB::raw('COUNT(CASE WHEN customer_list.Region != "Malaysia" THEN 1 ELSE NULL END) as "Foreigner"'))
+          ->groupby('store_list.Name')
+          ->orderby('store_list.Store', 'ASC')
+          ->get();
 
-      // $redemption5 = DB::table('redemption')
-      //     ->join('customer_list', 'redemption.customer_id', '=', 'customer_list.Cust_ID')
-      //     ->select('customer_list.*','redemption.redemption_id')
-      //     ->get();
-      //
-      // $redemption6 = DB::table('redemption')
-      //     ->join('customer_list', 'redemption.customer_id', '=', 'customer_list.Cust_ID')
-      //     ->select('customer_list.*','redemption.redemption_id')
-      //     //->sum()
-      //     ->get();
-
-
-        return view('summarysales',['wallpaper'=>$wallpaper],['redemption1'=>$redemption1]);
+        return view('summarysales',['wallpaper'=>$wallpaper],['sales3'=>$sales3])->with(['sales5'=>$sales5]);
     }
 
     public function redemptmethod()
