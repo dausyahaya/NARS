@@ -51,14 +51,15 @@ Route::get('savewallpapermessage', 'AdminController@savewallpapermessage');
 Route::get('import', 'AdminController@import');
 Route::get('importedfiles', 'AdminController@importedfiles');
 
-//Route::post('importExcelCustomerList', 'AdminController@importExcelCustomerList');
+Route::post('importExcelCustomerList', 'AdminController@importExcelCustomerList');
 Route::post('importExcelSalesItemSummary', 'AdminController@importExcelSalesItemSummary');
 //Route::post('importExcelStoreList', 'AdminController@importExcelStoreList');
-Route::post('importExcelItem', 'AdminController@importExcelItem');
-//Route::post('importExcelTotalSalesTransactionRecord','AdminController@importExcelTotalSalesTransactionRecord');
+//Route::post('importExcelItem', 'AdminController@importExcelItem');
+Route::post('importExcelTotalSalesTransactionRecord','AdminController@importExcelTotalSalesTransactionRecord');
 Route::post('importExcelCustomerSales','AdminController@importExcelCustomerSales');
 Route::post('importExcelSalesReceiptSummary','AdminController@importExcelSalesReceiptSummary');
-
+Route::post('importExcelSalesReceiptData','AdminController@importExcelSalesReceiptData');
+Route::post('importExcel','AdminController@importExcel');
 
 Auth::routes();
 
