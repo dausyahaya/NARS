@@ -33,6 +33,7 @@ tr:nth-child(even){background-color: #f2f2f2}
     </div>
     <div class="row">
 
+      <div class="container">
       <div class="col-lg-12">
         <form id="promoForm" name="sentMessage" novalidate>
           <div class="row">
@@ -57,7 +58,7 @@ tr:nth-child(even){background-color: #f2f2f2}
                       <td>{{$row->Store}}</td>
                       <td>{{$row->redemption_alu}}</td>
                       <td>{{$row->redemption_dcs}}</td>
-                      <td>{{$row->redemption_quantity}}</td>
+                      <td>{{$row->total_quantity}}</td>
                     </tr>
                     @endforeach
 
@@ -69,13 +70,15 @@ tr:nth-child(even){background-color: #f2f2f2}
           </div>
         </form>
       </div>
-    </br>
-    </br>
+    </div>
+
+  </br></br>
+  &nbsp;
 
       <!--2 - Redemption Customer Report-->
 
       <div class="col-lg-12">
-        <form id="promoForm" name="sentMessage" novalidate>
+        <form id="redemption" name="sentMessage" novalidate>
           <div class="row">
             <div class="wrapper" style="background:#fff;margin: 0 auto;">
                 <center><h3>Redemption Customer Report (Existing / New)</h3></center>
@@ -90,13 +93,13 @@ tr:nth-child(even){background-color: #f2f2f2}
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach($redemption1 as $index => $row)
+                    @foreach($redemption2 as $index => $row)
                     <tr>
                       <td>{{$index +1}}</td>
                       <td>{{$row->Name}}</td>
                       <td>{{$row->Store}}</td>
-                      <td>{{$row->redemption_alu}}</td>
-                      <td>{{$row->redemption_dcs}}</td>
+                      <td></td>
+                      <td></td>
                     </tr>
                     @endforeach
 
@@ -108,6 +111,9 @@ tr:nth-child(even){background-color: #f2f2f2}
           </div>
         </form>
       </div>
+
+    </br></br>
+    &nbsp;
 
       <!--3 - Redemption Item Report (quantity for each item) -->
 
@@ -146,6 +152,9 @@ tr:nth-child(even){background-color: #f2f2f2}
         </form>
       </div>
 
+    </br></br>
+    &nbsp;
+
       <!--4 - Redemption Customer Detail -->
 
       <div class="col-lg-12">
@@ -167,19 +176,18 @@ tr:nth-child(even){background-color: #f2f2f2}
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach($redemption4 as $index => $row)
-                    <tr>
-                      <td>{{$index +1}}</td>
-                      <td>{{$row->redemption_id}}</td>
-                      <td>{{$row->Name}}</td>
-                      <td>{{$row->DOB}}</td>
-                      <td>{{$row->Category}}</td>
-                      <td>{{$row->Region}}</td>
-                      <td>{{$row->Race}}</td>
-                      <td>{{$row->Email}}</td>
-                    </tr>
-                    @endforeach
-
+                      @foreach($redemption4 as $index => $row)
+                      <tr>
+                        <td>{{$index +1}}</td>
+                        <td>{{$row->redemption_id}}</td>
+                        <td>{{$row->Name}}</td>
+                        <td>{{$row->DOB}}</td>
+                        <td>{{$row->Category}}</td>
+                        <td>{{$row->Region}}</td>
+                        <td>{{$row->Race}}</td>
+                        <td>{{$row->Email}}</td>
+                      </tr>
+                      @endforeach
                   </tbody>
                 </table>
             </div>
@@ -188,6 +196,9 @@ tr:nth-child(even){background-color: #f2f2f2}
           </div>
         </form>
       </div>
+
+    </br></br>
+    &nbsp;
 
       <!--5 - Redemption Report by Period, by Event -->
 
@@ -204,12 +215,7 @@ tr:nth-child(even){background-color: #f2f2f2}
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach($redemption5 as $index => $row)
-                    <tr>
-                      <td>{{$index +1}}</td>
-                      <td>{{$row->redemption_id}}</td>
-                    </tr>
-                    @endforeach
+
 
                   </tbody>
                 </table>
@@ -219,6 +225,9 @@ tr:nth-child(even){background-color: #f2f2f2}
           </div>
         </form>
       </div>
+
+    </br></br>
+    &nbsp;
 
       <!--6 - Redemption Report by Period, by Event -->
 
@@ -246,9 +255,9 @@ tr:nth-child(even){background-color: #f2f2f2}
                       <td>{{$row->redemption_id}}</td>
                       <td>{{$row->Name}}</td>
                       <td>{{$row->DOB}}</td>
-                      <td>{{$row->redemption_id}}</td>
-                      <td>{{$row->redemption_id}}</td>
-                      <td>{{$row->redemption_id}}</td>
+                      <td>{{$row->Total_Unit}}</td>
+                      <td>{{$row->Visits}}</td>
+                      <td>{{$row->Total_Sale}}</td>
                     </tr>
                     @endforeach
 
@@ -260,6 +269,9 @@ tr:nth-child(even){background-color: #f2f2f2}
           </div>
         </form>
       </div>
+
+    </br></br>
+    &nbsp;
 
       <div class="col-lg-12 text-center">
         <div id="success"></div>
