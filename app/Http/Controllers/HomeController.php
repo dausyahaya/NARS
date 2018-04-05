@@ -148,7 +148,7 @@ class HomeController extends Controller
     {
       $input = $request->all();
 
-        $id = DB::table('member')->insertGetId(
+        $id = DB::table('customer_list')->insertGetId(
           [
             'First' => $input["firstname"],
             'Last' => $input["lastname"],
@@ -164,6 +164,14 @@ class HomeController extends Controller
         ->first();
 
         return view('success',['wallpaper'=>$wallpaper]);
+    }
+    public function register()
+    {
+      $wallpaper = DB::table('image')
+      ->select('image.*')
+      ->first();
+
+        return view('register',['wallpaper'=>$wallpaper]);
     }
     public function register()
     {
