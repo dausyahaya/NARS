@@ -207,57 +207,60 @@ class AdminController extends Controller
       //           });
       //     })->download($type);
       // }
-      public function importExcelCustomerList()
+      public function importExcelCustomerList(Request $request)
       {
-          if(Input::hasFile('import_file')){
+      if(Input::hasFile('import_file')){
         // if(Input::get('import_file_name') == 'customer_list'){
           {    
-                $path = Input::file('import_file')->getRealPath();
-                $data = Excel::load($path, function($reader)
+            $upload=$request->file('import_file');
+            $filePath=$upload->getRealPath();
+            
+            $row=0;
+            $skip = 1;
+            $lastrow=false;
+            if (($handle = fopen($filePath, 'r')) !== FALSE) {
+                for ($i = 0; $i < $skip; $i++) 
                 {
-                })->get();
-                $query = sprintf("LOAD DATA LOCAL INFILE '%s' INTO TABLE customer_list
-            FIELDS TERMINATED BY ','
-            OPTIONALLY ENCLOSED BY '\"'
-            LINES TERMINATED BY '\n'
-            IGNORE 1 LINES 
-            (`Str_Code`,`Cust_ID`,`Last`,`First`,`Phone1`,`Info1`,`Last_Sale_Dt`,`Category`,`Prc_Lvl`,`Name`,`Total_Unit`,`Total_Sale`,`Total_Trans`,`Visits`,`Created_By`,`Create_Dt`,`Race`,`Region`,`Email`)", addslashes($path));
-            DB::connection()->getpdo()->exec($query);
-            /*
-                if(!empty($data) && $data->count())
-                {    
-                    foreach ($data as $key => $value)
-                    {  
-                        $insert[] = [
-                                                          'Str_Code' => $value->str_code,
-                                                          'Cust_ID' => $value->cust_id,
-                                                          'Last' => $value->last,
-                                                          'First' => $value->first,
-                                                          'Phone1' => $value->phone1,
-                                                          'Info1' => $value->info1,
-                                                          'Last_Sale_Dt' => $value->last_sale_dt,
-                                                          'Category' => $value->category,
-                                                          'Prc_Lvl' => $value->prc_lvl,
-                                                          'Name' => $value->name,
-                                                          'Total_Unit' => $value->total_units,
-                                                          'Total_Sale' => $value->total_sales,
-                                                          'Total_Trans' => $value->total_trans,
-                                                          'Visits' => $value->visits,
-                                                          'Created_By' => $value->created_by,
-                                                          'Create_Dt' => $value->create_dt,
-                                                          'Race' => $value->race,
-                                                          'Region' => $value->region,
-                                                          'Email' => $value->e_mail
-                                    ];
-                    }
-                    if(!empty($insert))
+                    fgets($handle);
+                }
+                
+                while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) 
+                {   $create_dt=str_replace('"','',$data[15]);
+                    $insert[]=[
+                                 'Str_Code' => $data[0],
+                                 'Cust_ID' => $data[1],
+                                 'Last' => str_replace('"','',$data[2]),
+                                 'First' => str_replace('"','',$data[3]),
+                                 'Phone1' =>$data[4],
+                                 'Info1' => $data[5],
+                                 'Last_Sale_Dt' => $data[6],
+                                 'Category' => $data[7],
+                                 'Prc_Lvl' =>$data[8],
+                                 'Name' => $data[9],
+                                 'Total_Unit' => $data[10],
+                                 'Total_Sale' => $data[11],
+                                 'Total_Trans' => $data[12],
+                                 'Visits' => $data[13],
+                                 'Created_By' => $data[14],
+                                 'Create_Dt' => date('Y-m-d H:i:s',strtotime(str_replace('/', '-',$create_dt))),
+                                 'Race' => $data[16],
+                                 'Region' => $data[17],
+                                 'Email' => str_replace('"','',$data[18])
+   
+                    ];
+                    //date('Y-m-d',strtotime(str_replace('/', '-',$data[3])))
+                    $row++;
+                    if($row == 900)
                     {
                         DB::table('customer_list')->insert($insert);
-                        dd('Insert Record successfully.');
+                        unset($insert);
                     }
-                }*/
+                }
+                if(DB::table('customer_list')->insert($insert))
+                  dd('Insert Record successfully.');
             }
-            return back();
+            
+            }
           }
       }
       
@@ -661,7 +664,7 @@ class AdminController extends Controller
      public function importExcel(Request $request)
       {
         if(Input::get('import_file_option') == 'customer_list')
-            return $this->importExcelCustomerList();
+            return $this->importExcelCustomerList($request);
         else if(Input::get('import_file_option') == 'customer_sales')
             return $this->importExcelCustomerSales($request);
         else if(Input::get('import_file_option') == 'sales_item_summary')
