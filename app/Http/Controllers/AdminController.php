@@ -498,6 +498,7 @@ class AdminController extends Controller
        // return back();
        
       }
+      }
       public function importExcelStoreList(Request $request)
       {
           if(Input::get('import_file') == 'ca'){
