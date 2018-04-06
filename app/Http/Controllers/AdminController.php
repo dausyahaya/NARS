@@ -236,7 +236,7 @@ class AdminController extends Controller
                                  'Last_Sale_Dt' => $data[6],
                                  'Category' => $data[7],
                                  'Prc_Lvl' =>$data[8],
-                                 'Name' => $data[9],
+                                 'Name' => str_replace('"','',$data[9]),
                                  'Total_Unit' => $data[10],
                                  'Total_Sale' => $data[11],
                                  'Total_Trans' => $data[12],
