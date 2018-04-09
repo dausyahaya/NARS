@@ -53,7 +53,6 @@ class AdminController extends Controller
      public function addstore(Request $request)
      {
        $input = $request->all();
-
         $id = DB::table('store_list')->insertGetId(
            [
              'Store' => $input["store_id"],
@@ -62,11 +61,9 @@ class AdminController extends Controller
              'Password' => bcrypt($input["store_password"]),
            ]
          );
-
          $wallpaper = DB::table('image')
          ->select('image.*')
          ->first();
-
          return view('addstoremessage',['wallpaper'=>$wallpaper]);
      }
      public function availablesummary()
@@ -211,20 +208,20 @@ class AdminController extends Controller
       {
       if(Input::hasFile('import_file')){
         // if(Input::get('import_file_name') == 'customer_list'){
-          {    
+          {
             $upload=$request->file('import_file');
             $filePath=$upload->getRealPath();
-            
+
             $row=0;
             $skip = 1;
             $lastrow=false;
             if (($handle = fopen($filePath, 'r')) !== FALSE) {
-                for ($i = 0; $i < $skip; $i++) 
+                for ($i = 0; $i < $skip; $i++)
                 {
                     fgets($handle);
                 }
-                
-                while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) 
+
+                while (($data = fgetcsv($handle, 1000, ",")) !== FALSE)
                 {   $create_dt=str_replace('"','',$data[15]);
                     $insert[]=[
                                  'Str_Code' => $data[0],
@@ -246,7 +243,7 @@ class AdminController extends Controller
                                  'Race' => $data[16],
                                  'Region' => $data[17],
                                  'Email' => str_replace('"','',$data[18])
-   
+
                     ];
                     //date('Y-m-d',strtotime(str_replace('/', '-',$data[3])))
                     $row++;
@@ -259,13 +256,13 @@ class AdminController extends Controller
                 if(DB::table('customer_list')->insert($insert))
                   dd('Insert Record successfully.');
             }
-            
+
             }
           }
       }
-      
+
       public function importExcelCustomerSales(Request $request)
-      {  
+      {
          if(Input::hasFile('import_file'))
           {
           //get file
@@ -279,13 +276,13 @@ class AdminController extends Controller
             $query = sprintf("LOAD DATA LOCAL INFILE '%s' INTO TABLE customer_sales
             FIELDS TERMINATED BY ','
             OPTIONALLY ENCLOSED BY '\"'
-            LINES TERMINATED BY '\\n' 
-            IGNORE 3 LINES 
+            LINES TERMINATED BY '\\n'
+            IGNORE 3 LINES
             (Store_Name ,Customer_Name,Email_Addr,ALU,Item_Name,DCS_Code,INVC_No,Qty_Sold,Orig_Price,Sales,Disc,Price,Orig_Tax)",addslashes($path));
             DB::connection()->getpdo()->exec($query);
             /*
             if(!empty($data) && $data->count())
-                {    
+                {
                     foreach ($data as $key => $value)
                     {   //echo $value;
                         $insert[] = [
@@ -315,13 +312,13 @@ class AdminController extends Controller
                   $num = count($data);
                   $row++;
                   $insert[]  = [
-                                          
+
                   ];
                   unset($data);
               }*/
-              
+
            /*   if(!empty($insert))
-                    {   
+                    {
                         DB::table('customer_sales')->insert($insert);
                         DB::connection()->disableQueryLog();
                         dd('Insert Record successfully.');
@@ -341,24 +338,24 @@ class AdminController extends Controller
         $skip = 7;
         $lastrow=0;
         if (($handle = fopen($filePath, 'r')) !== FALSE) {
-            for ($i = 0; $i < $skip; $i++) 
+            for ($i = 0; $i < $skip; $i++)
             {
                 fgets($handle);
             }
-            
-            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) 
+
+            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE)
             {
                 $num = count($data);
                 foreach ($data as $key => $value)
-                {   
+                {
                     $count++;
                     if ($value == "")
                        $count-=1;
                     if(!($count > 0))
                        $lastrow=1;
-                    
+
                 }
-                
+
                 if ($count == 13)
                 {
                     $obj=[
@@ -378,7 +375,7 @@ class AdminController extends Controller
                     ];
                 }
                 if($count == 8)
-                {  
+                {
                     $insert[]=[
                         'Customer' => $obj["Customer"],
                         'Store' => $obj["Store"],
@@ -404,7 +401,7 @@ class AdminController extends Controller
                         'Cost' => $data[8]
                     ];
                 }
-                
+
                 $count =0;
                 $row++;
                 unset($data);
@@ -414,11 +411,11 @@ class AdminController extends Controller
                     {
                         DB::table('sales_receipt_data')->insert($insert);
                         //dd('Insert Record successfully.');
-                    } 
+                    }
                     $row=0;
                     unset($insert);
                 }
-                
+
             }
         }
         dd('Insert Record successfully.');
@@ -434,15 +431,15 @@ class AdminController extends Controller
                 $query = sprintf("LOAD DATA LOCAL INFILE '%s' INTO TABLE sales_item_summary
                          FIELDS TERMINATED BY ','
                          OPTIONALLY ENCLOSED BY '\"'
-                         LINES TERMINATED BY '\r\n' 
-                         IGNORE 6 LINES 
+                         LINES TERMINATED BY '\r\n'
+                         IGNORE 6 LINES
                          (DCS_Code, D, C, S, Description1, @dummy, @dummy, @dummy, ALU, UPC, @dummy, Qty_Sold, Disc, @dummy, Disc_Amt, @dummy, Ext_P, @dummy, Ext_PT)",addslashes($path));
                 DB::connection()->getpdo()->exec($query);
                 /*
                 if(!empty($data) && $data->count())
                 {
                     foreach ($data as $key => $value)
-                    {   
+                    {
                         $insert[] = [
                                                           // 'DCS_Code' => $value->{'DCS Code'},
                                                           // 'D' => $value->D,
@@ -488,17 +485,17 @@ class AdminController extends Controller
         $query = "LOAD DATA LOCAL INFILE '$path' INTO TABLE sales_receipt_summary
                   FIELDS TERMINATED BY ','
                   OPTIONALLY ENCLOSED BY '\"'
-                  LINES TERMINATED BY '\r\n' 
-                  IGNORE 5 LINES 
+                  LINES TERMINATED BY '\r\n'
+                  IGNORE 5 LINES
                   (Customer_Name, @dummy, @dummy, Store, Rcpt, @Rcpt_date, @Rcpt_time, Tender_Name, @dummy, Ext_Orig_Price, @dummy, Ext_Disc, Ext_Disc_Amt, Ext_P, @dummy, Ext_PT, Rcpt_Tax_Amt, @dummy, Rcpt_Total)
                   SET Rcpt_Date_Time=concat(STR_TO_DATE(@Rcpt_date, '%d/%m/%Y'), ' ', @Rcpt_time)";
-
        if(DB::connection()->getpdo()->exec($query))
           dd('Insert Record successfully.');
        // return back();
-       
+
       }
-      }
+    }
+
       public function importExcelStoreList(Request $request)
       {
           if(Input::get('import_file') == 'ca'){
@@ -531,7 +528,7 @@ class AdminController extends Controller
                         DB::table('store_list')->insert($insert);
                         dd('Insert Record successfully.');
                     }
-              
+
               //fclose($handle);
           }
         }
@@ -614,25 +611,24 @@ class AdminController extends Controller
        public function importExcelTotalSalesTransactionRecord()
        {
            if(Input::hasFile('import_file'))
-           {     
+           {
                  $path = Input::file('import_file')->getRealPath();
                  $data = Excel::load($path, function($reader)
                  {
-      
+
                  })->get();
-                 
+
                 $query = sprintf("LOAD DATA LOCAL INFILE '%s' INTO TABLE total_sales_transaction
                          FIELDS TERMINATED BY ','
                          OPTIONALLY ENCLOSED BY '\"'
-                         LINES TERMINATED BY '\r\n' 
-                         IGNORE 1 LINES 
+                         LINES TERMINATED BY '\r\n'
+                         IGNORE 1 LINES
                          (Store_Name, Customer_Name, INVC_No, Rolling_Month, DCS_Code, ALU, Item_Name, Year, Qty_Sold, Orig_Price, Sales, Disc, Price, Orig_Tax)",addslashes($path));
-
                 if(DB::connection()->getpdo()->exec($query))
                     dd('Insert Record successfully.');
                  /*
                  if(!empty($data) && $data->count())
-                 {   
+                 {
                      foreach ($data as $key => $value)
                      {
                          $insert[] = [ 'STORE_NAME' => $value->STORE_NAME,
@@ -661,7 +657,7 @@ class AdminController extends Controller
       //       return back();
        }
       // Firdaus - 21/3/2018
-    
+
      public function importExcel(Request $request)
       {
         if(Input::get('import_file_option') == 'customer_list')
@@ -677,4 +673,243 @@ class AdminController extends Controller
         else if(Input::get('import_file_option') == 'total_sales_transaction_record')
             return $this->importExcelTotalSalesTransactionRecord();
       }
+
+      public function catredeemsummary()
+      {
+        $wallpaper = DB::table('image')
+        ->select('image.*')
+        ->first();
+
+          return view('catredeemsummary',['wallpaper'=>$wallpaper]);
+      }
+
+      public function catsalessummary()
+      {
+        $wallpaper = DB::table('image')
+        ->select('image.*')
+        ->first();
+
+          return view('catsalessummary',['wallpaper'=>$wallpaper]);
+      }
+
+      //Redemption Summary
+      public function summaryRQtyByOutlet()
+      {
+        $wallpaper = DB::table('image')
+        ->select('image.*')
+        ->first();
+
+        $redemption1 = DB::table('redemption')
+            ->join('store_list', 'redemption.store', '=', 'store_list.Store')
+            ->select('redemption.*','store_list.Store','store_list.Name',DB::raw('COUNT(redemption.redemption_id) AS total_quantity'))
+            ->groupby('store_list.Name')
+            ->orderby('store_list.Store')
+            ->get();
+
+          return view('summaryRQtyByOutlet',['wallpaper'=>$wallpaper],['redemption1'=>$redemption1]);
+      }
+
+      public function summaryRCustomerExtNew()
+      {
+        $wallpaper = DB::table('image')
+        ->select('image.*')
+        ->first();
+
+        $redemption2 = DB::table('redemption')
+            ->join('store_list', 'redemption.store', '=', 'store_list.Store')
+            ->select('redemption.*','store_list.Store','store_list.Name',DB::raw('COUNT(redemption.redemption_id) AS total_quantity'))
+            ->groupby('store_list.Name')
+            ->orderby('store_list.Store')
+            ->get();
+
+          return view('summaryRCustomerExtNew',['wallpaper'=>$wallpaper],['redemption2'=>$redemption2]);
+      }
+
+      public function summaryRQtyItemReport()
+      {
+        $wallpaper = DB::table('image')
+        ->select('image.*')
+        ->first();
+
+        $redemption3 = DB::table('redemption')
+            ->join('store_list', 'redemption.store', '=', 'store_list.Store')
+            ->select('redemption.*','store_list.Store','store_list.Name',DB::raw('COUNT(redemption.redemption_id) AS total_quantity'))
+            ->groupby('store_list.Name')
+            ->orderby('store_list.Store')
+            ->get();
+
+
+          return view('summaryRQtyItemReport',['wallpaper'=>$wallpaper],['redemption3'=>$redemption3]);
+      }
+
+      public function summaryRCustomerDetail()
+      {
+        $wallpaper = DB::table('image')
+        ->select('image.*')
+        ->first();
+
+        $redemption4 = DB::table('redemption')
+            ->rightjoin('customer_list', 'redemption.customer_id', '=', 'customer_list.Cust_ID')
+            ->select('redemption.*','customer_list.Name','customer_list.DOB','customer_list.Category','customer_list.Region','customer_list.Race','customer_list.Email')
+            ->orderby('redemption.redemption_id')
+            ->get();
+
+          return view('summaryRCustomerDetail',['wallpaper'=>$wallpaper],['redemption4'=>$redemption4]);
+      }
+
+      public function summaryRPeriodEvent()
+      {
+        $wallpaper = DB::table('image')
+        ->select('image.*')
+        ->first();
+
+        $redemption5 = DB::table('redemption')
+            ->join('store_list', 'redemption.store', '=', 'store_list.Store')
+            ->select('redemption.*','store_list.Store','store_list.Name',DB::raw('COUNT(redemption.redemption_id) AS total_quantity'))
+            ->groupby('store_list.Name')
+            ->orderby('store_list.Store')
+            ->get();
+
+          return view('summaryRPeriodEvent',['wallpaper'=>$wallpaper],['redemption5'=>$redemption5]);
+      }
+
+      public function summaryRHistory()
+      {
+        $wallpaper = DB::table('image')
+        ->select('image.*')
+        ->first();
+
+        $redemption6 = DB::table('redemption')
+            ->rightjoin('customer_list', 'redemption.customer_id', '=', 'customer_list.Cust_ID')
+            ->select('redemption.*','customer_list.Name','customer_list.DOB','customer_list.Total_Unit','customer_list.Visits','customer_list.Total_Sale')
+            ->orderby('customer_list.Name')
+            ->get();
+
+          return view('summaryRHistory',['wallpaper'=>$wallpaper],['redemption6'=>$redemption6]);
+      }
+
+      //Sales Summary
+
+      public function summarySItemPerOutlet()
+      {
+        $wallpaper = DB::table('image')
+        ->select('image.*')
+        ->first();
+
+
+          return view('summarySItemPerOutlet',['wallpaper'=>$wallpaper]);
+      }
+
+      public function summarySReceiptPerOutlet()
+      {
+        $wallpaper = DB::table('image')
+        ->select('image.*')
+        ->first();
+
+        $sales2 = DB::table('sales_receipt_summary')
+            ->rightjoin('store_list', 'sales_receipt_summary.Store', '=', 'store_list.Store')
+            ->select('sales_receipt_summary.*','store_list.Name')
+            ->orderby('store_list.Store','ASC')
+            ->get();
+
+          return view('summarySReceiptPerOutlet',['wallpaper'=>$wallpaper],['sales2'=>$sales2]);
+      }
+
+      public function summarySPurchaseHistory()
+      {
+        $wallpaper = DB::table('image')
+        ->select('image.*')
+        ->first();
+
+
+
+            $sales3 = DB::table('total_sales_transaction')
+                ->select('Customer_Name','INVC_NO','Rolling_Month','Qty_Sold','Orig_Price','Sales','Disc','Price','Orig_Tax',DB::raw('(Sales - Orig_Tax) AS before_gst'))
+                ->groupby('Customer_Name')
+                ->orderby('Customer_Name','ASC')
+                ->get();
+
+
+          return view('summarySPurchaseHistory',['wallpaper'=>$wallpaper],['sales3'=>$sales3]);
+      }
+
+      public function summarySLocalVSForeigner()
+      {
+        $wallpaper = DB::table('image')
+        ->select('image.*')
+        ->first();
+
+
+
+        $sales4 = DB::table('customer_list')
+                ->join('store_list', 'customer_list.Str_Code', '=', 'store_list.Store')
+                ->select('store_list.*',DB::raw('COUNT(CASE WHEN customer_list.Region = "Malaysia" THEN 1 ELSE NULL END) as "Local"'),DB::raw('COUNT(CASE WHEN customer_list.Region != "Malaysia" THEN 1 ELSE NULL END) as "Foreigner"'))
+                ->groupby('store_list.Name')
+                ->orderby('store_list.Store', 'ASC')
+                ->get();
+
+
+          return view('summarySLocalVSForeigner',['wallpaper'=>$wallpaper],['sales4'=>$sales4]);
+      }
+
+      public function summarySTopSellingItem()
+      {
+        $wallpaper = DB::table('image')
+        ->select('image.*')
+        ->first();
+
+        $sales5 = DB::table('sales_item_summary')
+                ->select('Description1', 'Qty_Sold')
+                ->orderby(DB::raw('CAST(Qty_Sold AS INTEGER)'), 'DESC')
+                ->take('20')
+                ->get();
+
+          return view('summarySTopSellingItem',['wallpaper'=>$wallpaper], ['sales5'=>$sales5]);
+      }
+
+      public function summarySCustDemo()
+      {
+        $wallpaper = DB::table('image')
+        ->select('image.*')
+        ->first();
+
+        $sales6 = DB::table('customer_list')
+            ->select(DB::raw('UPPER(Race) AS Race'),DB::raw('COUNT(1) AS Num'))
+            ->groupby(DB::raw('UPPER(Race)'))
+            // ->orderby(DB::raw('CAST(Qty_Sold AS INTEGER)'), 'DESC')
+            ->get();
+
+
+          return view('summarySCustDemo',['wallpaper'=>$wallpaper],['sales6'=>$sales6]);
+      }
+
+      public function summarySTargetCustomer()
+      {
+        $wallpaper = DB::table('image')
+        ->select('image.*')
+        ->first();
+
+        $sales7 = DB::table('total_sales_transaction')
+            ->select('Customer_Name','INVC_NO','Rolling_Month','Qty_Sold','Orig_Price','Sales','Disc','Price','Orig_Tax',DB::raw('(Sales - Orig_Tax) AS before_gst'))
+            ->groupby('Customer_Name')
+            ->orderby('Customer_Name','ASC')
+            ->take('20')
+            ->get();
+
+
+          return view('summarySTargetCustomer',['wallpaper'=>$wallpaper],['sales7'=>$sales7]);
+      }
+
+      public function summarySNumCust()
+      {
+        $wallpaper = DB::table('image')
+        ->select('image.*')
+        ->first();
+
+
+
+          return view('summarySNumCust',['wallpaper'=>$wallpaper]);
+      }
+
+
 }
