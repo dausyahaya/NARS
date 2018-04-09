@@ -41,6 +41,28 @@ Route::get('newstore', 'AdminController@newstore');
 Route::post('addstore', 'AdminController@addstore');
 Route::post('adduser', 'AdminController@adduser');
 Route::get('availablesummary', 'AdminController@availablesummary');
+Route::get('catredeemsummary', 'AdminController@catredeemsummary');
+Route::get('catsalessummary', 'AdminController@catsalessummary');
+
+//Redemption SUMMARY
+Route::get('summaryRQtyByOutlet', 'AdminController@summaryRQtyByOutlet');
+Route::get('summaryRCustomerExtNew', 'AdminController@summaryRCustomerExtNew');
+Route::get('summaryRQtyItemReport', 'AdminController@summaryRQtyItemReport');
+Route::get('summaryRCustomerDetail', 'AdminController@summaryRCustomerDetail');
+Route::get('summaryRPeriodEvent', 'AdminController@summaryRPeriodEvent');
+Route::get('summaryRHistory', 'AdminController@summaryRHistory');
+
+//Sales SUMMARY
+Route::get('summarySItemPerOutlet', 'AdminController@summarySItemPerOutlet'); //sales1
+Route::get('summarySReceiptPerOutlet', 'AdminController@summarySReceiptPerOutlet'); //sale2
+Route::get('summarySPurchaseHistory', 'AdminController@summarySPurchaseHistory'); //sales3
+Route::get('summarySLocalVSForeigner', 'AdminController@summarySLocalVSForeigner'); //sales4
+Route::get('summarySTopSellingItem', 'AdminController@summarySTopSellingItem'); //sales5
+Route::get('summarySCustDemo', 'AdminController@summarySCustDemo'); //sales6
+Route::get('summarySTargetCustomer', 'AdminController@summarySTargetCustomer'); //sales7
+Route::get('summarySNumCust', 'AdminController@summarySNumCust'); //sales8
+
+
 Route::get('newuser', 'AdminController@newuser');
 Route::get('addusermessage', 'AdminController@addusermessage');
 Route::get('addstoremessage', 'AdminController@addstoremessage');
@@ -61,6 +83,7 @@ Route::post('importExcelCustomerSales','AdminController@importExcelCustomerSales
 Route::post('importExcelSalesReceiptSummary','AdminController@importExcelSalesReceiptSummary');
 Route::post('importExcelSalesReceiptData','AdminController@importExcelSalesReceiptData');
 Route::post('importExcel','AdminController@importExcel');
+
 
 Auth::routes();
 
