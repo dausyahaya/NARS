@@ -44,11 +44,11 @@ tr:nth-child(even){background-color: #f2f2f2}
                   <tbody>
                     <tr>
                       <td>1</td>
-                      <td><a href='{{ URL::to("/summaryredemption")}}'>Redemption</a></td>
+                      <td><a href='{{ URL::to("/catredeemsummary")}}'>Redemption</a></td>
                     </tr>
                     <tr>
                       <td>2</td>
-                      <td><a href='{{ URL::to("/summarysales")}}'>Sales</a></td>
+                      <td><a href='{{ URL::to("/catsalessummary")}}'>Sales</a></td>
                     </tr>
                   </tbody>
                 </table>
