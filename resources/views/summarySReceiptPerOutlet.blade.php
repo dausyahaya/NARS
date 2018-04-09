@@ -23,6 +23,12 @@ tr:nth-child(even){background-color: #f2f2f2}
 @endsection
 @section('content')
 
+<script>
+$(document).ready(function(){
+  $('#receipt-per-outlet').DataTable();
+  });
+</script>
+
 <section id="admin">
   <div class="container">
     <div class="row">
@@ -41,7 +47,7 @@ tr:nth-child(even){background-color: #f2f2f2}
           <div class="row">
             <div class="wrapper" style="background:#fff;margin: 0 auto;">
                 <center><h3>Receipts Per Outlet - Sales Figure</h3></center>
-                <table class="table table-striped sumtable">
+                <table class="table table-striped sumtable" id='receipt-per-outlet'>
                   <thead>
                     <tr>
                       <th>Num</th>

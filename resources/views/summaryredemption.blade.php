@@ -20,6 +20,12 @@ th, td {
 }
 tr:nth-child(even){background-color: #f2f2f2}
 </style>
+<script>
+$(document).ready(function(){
+  $('#redemption-summary-table').DataTable();
+});
+</script>
+
 @endsection
 @section('content')
 
@@ -39,6 +45,7 @@ tr:nth-child(even){background-color: #f2f2f2}
           <div class="row">
             <div class="wrapper" style="background:#fff;margin: 0 auto;">
                 <center><h3>Redemption quantity by outlet (monthly, weekly, daily, YTD)</h3></center>
+                <div class="table-responsive">
                 <table class="table table-striped sumtable">
                   <thead>
                     <tr>
@@ -61,11 +68,11 @@ tr:nth-child(even){background-color: #f2f2f2}
                       <td>{{$row->total_quantity}}</td>
                     </tr>
                     @endforeach
-
+                   
                   </tbody>
                 </table>
             </div>
-
+          </div>
 
           </div>
         </form>
@@ -82,6 +89,7 @@ tr:nth-child(even){background-color: #f2f2f2}
           <div class="row">
             <div class="wrapper" style="background:#fff;margin: 0 auto;">
                 <center><h3>Redemption Customer Report (Existing / New)</h3></center>
+                <div class="table-responsive">
                 <table class="table table-striped sumtable">
                   <thead>
                     <tr>
@@ -102,10 +110,11 @@ tr:nth-child(even){background-color: #f2f2f2}
                       <td></td>
                     </tr>
                     @endforeach
-
                   </tbody>
                 </table>
+                <!--{!! $redemption2->links() !!} -->
             </div>
+          </div>
 
 
           </div>

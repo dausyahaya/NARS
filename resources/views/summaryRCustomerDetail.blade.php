@@ -20,8 +20,14 @@ th, td {
 }
 tr:nth-child(even){background-color: #f2f2f2}
 </style>
+
 @endsection
 @section('content')
+<script>
+$(document).ready(function(){
+  var table=$('#customer-table').DataTable();
+});
+</script>
 
 <section id="admin">
   <div class="container">
@@ -38,7 +44,7 @@ tr:nth-child(even){background-color: #f2f2f2}
           <div class="row">
             <div class="wrapper" style="background:#fff;margin: 0 auto;">
                 <center><h3>Redemption Customer Detail</h3></center>
-                <table class="table table-striped sumtable">
+                <table class="table table-striped sumtable" id="customer-table">
                   <thead>
                     <tr>
                       <th>Num</th>
@@ -87,3 +93,6 @@ tr:nth-child(even){background-color: #f2f2f2}
 </section>
 
 @endsection
+
+
+
