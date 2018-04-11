@@ -355,26 +355,59 @@ class HomeController extends Controller
     }
     public function redemptgift(){
 
-      $user = Auth::user();
+        $user = Auth::user();
+        date_default_timezone_set('Asia/Kuala_Lumpur');
+        $current = Carbon::now();
+        $current = new Carbon();
 
-      date_default_timezone_set('Asia/Kuala_Lumpur');
-      $current = Carbon::now();
-      $current = new Carbon();
+        $store = DB::table('users')
+        ->select('users.*')
+        ->where('users.id','=',$user->id)
+        ->first();
 
-      $store = DB::table('users')
-      ->select('users.*')
-      ->where('users.id','=',$user->id)
-      ->first();
+        $redemptgift = DB::table('redemptmethod')
+        ->select('redemptmethod.*')
+        ->first();
 
-      $redemptgift = DB::table('redemptmethod')
-      ->select('redemptmethod.*')
-      ->first();
+        $wallpaper = DB::table('image')
+        ->select('image.*')
+        ->first();
+    
+        $data=DB::table('sales_item_summary')
+        ->inRandomOrder()
+        ->where('Qty_Sold','>', 0)
+        ->take(20)
+        ->get();
+        
+        return view ('redemptgift', ['store'=>$store,'redemptgift'=>$redemptgift,'current'=>$current,'wallpaper'=>$wallpaper],['data' =>$data]);
+    }
+    public function redemptvalidate(Request $request)
+    {   
+      
+        $wallpaper = DB::table('image')
+        ->select('image.*')
+        ->first();
+        $input = $request->all();
 
-      $wallpaper = DB::table('image')
-      ->select('image.*')
-      ->first();
-
-        return view ('redemptgift', ['store'=>$store,'redemptgift'=>$redemptgift,'current'=>$current,'wallpaper'=>$wallpaper]);
+        if($input["product_value"] == null)
+              return back();
+        else
+        {   
+            $confirmation=DB::table('redemption')->insertGetId(
+                [
+                  'redemption_alu' => $input["product_value"],
+                  'redemption_dcs' => $input["product_dcs"],
+                  'redemption_dt' => Carbon::now('Asia/Kuala_Lumpur'),
+                  'method' => $input["method"],
+                  'customer_id' => $input['cust_id'],
+                ]
+              );
+            DB::table('sales_item_summary')
+            ->where('ALU','=', $input["product_value"])
+            ->decrement('Qty_Sold');
+            return view('redemptconfirmation',['wallpaper'=>$wallpaper]);
+        }
+            
     }
     public function redemptmethodmessage()
     {
