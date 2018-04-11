@@ -47,7 +47,6 @@
                           <th>NO</th>
                           <th style="width=300px">Store ID</th>
                           <th style="width=300px">Store Name</th>
-                          <th style="width=300px">Store Email</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -60,7 +59,6 @@
                                 <td>{{$index+1}}</td>
                                 <td>{{$row->Store}}</td>
                                 <td>{{$row->Name}}</td>
-                                <td>{{$row->Email}}</td>
                             </tr>
                         @endforeach
 
