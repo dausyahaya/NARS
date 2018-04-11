@@ -53,14 +53,24 @@ class AdminController extends Controller
      public function addstore(Request $request)
      {
        $input = $request->all();
+
         $id = DB::table('store_list')->insertGetId(
            [
              'Store' => $input["store_id"],
              'Name' => $input["store_name"],
-             'Email' => $input["store_email"],
-             'Password' => bcrypt($input["store_password"]),
            ]
          );
+
+         $id2 = DB::table('users')->insertGetId(
+            [
+              'store_id' => $input["store_id"],
+              'name' => $input["store_name"],
+              'email' => $input["store_email"],
+              'password' => bcrypt($input["store_password"]),
+              'usertype' => $input["usertype"],
+            ]
+          );
+
          $wallpaper = DB::table('image')
          ->select('image.*')
          ->first();
@@ -116,21 +126,60 @@ class AdminController extends Controller
        $wallpaper = DB::table('image')
        ->select('image.*')
        ->first();
-         return view('stock',['wallpaper'=>$wallpaper]);
+
+       $user = Auth::user();
+
+       $stock = DB::table('stocks')
+           ->join('users', 'users.store_id', '=', 'stocks.store_id')
+           // ->where('users.store_id','=',$user->store_id)
+           ->select('stocks.DCS_Code', 'stocks.UPC', 'stocks.ALU', 'stocks.Name', 'stocks.Quantity', 'users.store_id')
+
+           // ->groupby('DCS_Code')
+           // ->orderby('Customer_Name','ASC')
+           // ->take('20')
+           ->get();
+       $users = DB::table('users')
+           ->where('id','=',$user->id)
+           ->select('store_id')
+           ->get();
+
+         return view('stock',['wallpaper'=>$wallpaper], ['stock'=>$stock])->with(['users'=>$users]);
      }
      public function newstock(Request $request)
      {
        $input = $request->all();
+       $user = Auth::user();
+
          $id = DB::table('stocks')->insertGetId(
            [
+             'DCS_Code' => $input["DCS_Code"],
+             'UPC' => $input["UPC"],
+             'ALU' => $input["ALU"],
              'Name' => $input["itemname"],
              'Quantity' => $input["quantity"],
+             'store_id' => $input["store_id"],
            ]
          );
+
          $wallpaper = DB::table('image')
          ->select('image.*')
          ->first();
-         return view('stock',['wallpaper'=>$wallpaper]);
+
+         $stock = DB::table('stocks')
+             ->join('users', 'users.store_id', '=', 'stocks.store_id')
+             // ->where('users.store_id','=',$user->store_id)
+             ->select('stocks.DCS_Code', 'stocks.UPC', 'stocks.ALU', 'stocks.Name', 'stocks.Quantity', 'users.store_id')
+
+             // ->groupby('DCS_Code')
+             // ->orderby('Customer_Name','ASC')
+             // ->take('20')
+             ->get();
+         $users = DB::table('users')
+             ->where('id','=',$user->id)
+             ->select('store_id')
+             ->get();
+
+         return view('stock',['wallpaper'=>$wallpaper], ['stock'=>$stock])->with(['users'=>$users]);
      }
      public function changewallpaper()
      {
