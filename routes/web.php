@@ -30,6 +30,7 @@ Route::post('memberregister1', 'HomeController@memberregister1');
 Route::get('identityconfirmation', 'HomeController@identityconfirmation');
 Route::post('savemethod', 'HomeController@savemethod');
 Route::get('redemptgift', 'HomeController@redemptgift');
+Route::post('redemptvalidate','HomeController@redemptvalidate');
 Route::get('redemptmethodmessage', 'HomeController@redemptmethodmessage');
 
 
