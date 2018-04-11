@@ -293,7 +293,7 @@
   
   var data = [
     @foreach($data as $data)                            
-        {"label":"{{$data->DCS_Code}}/{{$data->ALU}}", "value":"{{$data->ALU}}",  "DCS":"{{$data->DCS_Code}}"},
+        {"label":"{{$data->DCS_CODE}}/{{$data->ALU}}", "value":"{{$data->ALU}}",  "DCS":"{{$data->DCS_CODE}}"},
     @endforeach                             
   ];
 
