@@ -397,9 +397,10 @@ class HomeController extends Controller
                   'customer_id' => $input['cust_id'],
                 ]
               );
-            DB::table('sales_item_summary')
+            DB::table('stocks')
             ->where('ALU','=', $input["product_value"])
-            ->decrement('Qty_Sold');
+            ->decrement('Quantity');
+
             return view('redemptconfirmation',['wallpaper'=>$wallpaper]);
         }
             
