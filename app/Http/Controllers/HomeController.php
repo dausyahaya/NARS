@@ -75,6 +75,45 @@ class HomeController extends Controller
 
         return view('memberlogin',['store'=>$store,'current'=>$current,'wallpaper'=>$wallpaper]);
     }
+    public function storemgtcategory()
+    {
+      $user = Auth::user();
+
+      date_default_timezone_set('Asia/Kuala_Lumpur');
+      $current = Carbon::now();
+      $current = new Carbon();
+
+      $store = DB::table('users')
+      ->select('users.*')
+      ->where('users.id','=',$user->id)
+      ->first();
+
+      $wallpaper = DB::table('image')
+      ->select('image.*')
+      ->first();
+
+      return view('storemgtcategory',['store'=>$store,'current'=>$current,'wallpaper'=>$wallpaper]);
+    }
+
+    public function membercategory()
+    {
+      $user = Auth::user();
+
+      date_default_timezone_set('Asia/Kuala_Lumpur');
+      $current = Carbon::now();
+      $current = new Carbon();
+
+      $store = DB::table('users')
+      ->select('users.*')
+      ->where('users.id','=',$user->id)
+      ->first();
+
+      $wallpaper = DB::table('image')
+      ->select('image.*')
+      ->first();
+
+      return view('membercategory',['store'=>$store,'current'=>$current,'wallpaper'=>$wallpaper]);
+    }
     public function redempt(Request $request)
     {
       $user = Auth::user();
