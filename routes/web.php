@@ -27,6 +27,8 @@ Route::get('memberregister', 'HomeController@memberregister');
 Route::get('memberlogin', 'HomeController@memberlogin');
 Route::post('redempt', 'HomeController@redempt');
 Route::post('memberregister1', 'HomeController@memberregister1');
+Route::get('membercategory', 'HomeController@membercategory');
+Route::get('storemgtcategory', 'HomeController@storemgtcategory');
 Route::get('identityconfirmation', 'HomeController@identityconfirmation');
 Route::post('savemethod', 'HomeController@savemethod');
 Route::get('redemptgift', 'HomeController@redemptgift');
