@@ -13,7 +13,6 @@
 
 
 Auth::routes();
-
 Route::get('/',  'HomeController@index');
 Route::get('membership',  'HomeController@membership');
 Route::get('register', 'HomeController@register');
@@ -34,14 +33,13 @@ Route::post('savemethod', 'HomeController@savemethod');
 Route::get('redemptgift', 'HomeController@redemptgift');
 Route::post('redemptvalidate','HomeController@redemptvalidate');
 Route::get('redemptmethodmessage', 'HomeController@redemptmethodmessage');
-
-
-
 Route::get('login', 'AdminController@login');
 Route::get('setting', 'AdminController@setting');
 Route::get('admindashboard', 'AdminController@admindashboard');
 Route::get('newstore', 'AdminController@newstore');
 Route::post('addstore', 'AdminController@addstore');
+Route::post('editstore','AdminController@editstore');
+Route::get('displaystore/{id}',['uses'=>'AdminController@displaystore']);
 Route::post('adduser', 'AdminController@adduser');
 Route::get('availablesummary', 'AdminController@availablesummary');
 Route::get('catredeemsummary', 'AdminController@catredeemsummary');
@@ -64,13 +62,17 @@ Route::get('summarySTopSellingItem', 'AdminController@summarySTopSellingItem'); 
 Route::get('summarySCustDemo', 'AdminController@summarySCustDemo'); //sales6
 Route::get('summarySTargetCustomer', 'AdminController@summarySTargetCustomer'); //sales7
 Route::get('summarySNumCust', 'AdminController@summarySNumCust'); //sales8
-
-
 Route::get('newuser', 'AdminController@newuser');
+Route::get('displayuser/{id}',['uses'=>'AdminController@displayuser']);
+Route::post('edituser','AdminController@edituser');
+Route::get('deleteuser/{id}',['uses'=>'AdminController@deleteuser']);
 Route::get('addusermessage', 'AdminController@addusermessage');
 Route::get('addstoremessage', 'AdminController@addstoremessage');
 Route::get('stock',  'AdminController@stock');
 Route::post('newstock',  'AdminController@newstock');
+Route::get('displaystock/{id}',['uses'=>'AdminController@displaystock']);
+Route::get('deletestock/{id}',['uses'=>'AdminController@deletestock']);
+Route::post('editstock','AdminController@editstock');
 Route::get('changewallpaper',  'AdminController@changewallpaper');
 Route::post('savewallpaper',  'AdminController@savewallpaper');
 Route::get('savewallpapermessage', 'AdminController@savewallpapermessage');
@@ -86,6 +88,7 @@ Route::post('importExcelCustomerSales','AdminController@importExcelCustomerSales
 Route::post('importExcelSalesReceiptSummary','AdminController@importExcelSalesReceiptSummary');
 Route::post('importExcelSalesReceiptData','AdminController@importExcelSalesReceiptData');
 Route::post('importExcel','AdminController@importExcel');
+
 
 
 Auth::routes();
