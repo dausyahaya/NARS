@@ -50,6 +50,7 @@ $(document).ready(function(){
                     <input class="form-control" id="password" name="password" type="password" placeholder="Password">
                     <p></p>
                     <input class="form-control" id="password-confirm" type="password" name="password_confirmation" placeholder="Confirm Password" required>
+                    <div class="registrationFormAlert" id="divCheckPasswordMatch"></div>
                     <p></p>
                     <input class="form-control" id="usertype" name="usertype" type="hidden" placeholder="User Type" value="admin">
                     <p></p>
@@ -119,5 +120,23 @@ $(document).ready(function(){
         </div>
       </div>
     </section>
+
+    <script>
+
+            function checkPasswordMatch() {
+            var password = $("#password").val();
+            var confirmPassword = $("#password-confirm").val();
+
+            if (password != confirmPassword)
+                $("#divCheckPasswordMatch").html("Passwords do not match!");
+            else
+                $("#divCheckPasswordMatch").html("Passwords match.");
+        }
+
+        $(document).ready(function () {
+           $("#password-confirm").keyup(checkPasswordMatch);
+        });
+
+    </script>
 
   @endsection
