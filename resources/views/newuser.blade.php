@@ -1,6 +1,33 @@
 @extends('layouts.app1')
-
+@section('head')
+<style>
+.sumtable{
+  background-color:#fff;
+  font-size: 12px;
+  margin-left:15%;
+  margin-right:15%;
+  color:#fff;
+  width:100%;
+  height:300px;
+}
+table{
+  background:#fff;
+}
+th, td {
+    text-align: left;
+    padding: 8px;
+    background:#fff;
+}
+tr:nth-child(even){background-color: #f2f2f2}
+</style>
+@endsection
 @section('content')
+
+<script>
+$(document).ready(function(){
+  $('#quantity-table').DataTable();
+});
+</script>
 
     <!-- Contact -->
     <section id="admin">
@@ -40,11 +67,12 @@
         </div>
       </br>
 
-        <div class="col-lg-12">
-          <form id="" name="">
-            <div class="row">
-              <div class="wrapper" style="overflow-x:scroll;overflow-y:scroll;background:#fff;margin: 0 auto;">
-                  <table class="table table-striped sumtable" style="width:800px;">
+      <div class="container">
+      <div class="col-lg-12">
+        <form id="promoForm" name="sentMessage" novalidate>
+          <div class="row">
+            <div class="wrapper" style="background:#fff;margin: 0 auto;">
+                <table class="table table-striped sumtable" id='quantity-table'>
                     <thead>
                       <tr>
                         <th>NO</th>
@@ -73,12 +101,23 @@
 
                     </tbody>
                   </table>
+                </div>
+
+
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
 
+      </br></br>
+      &nbsp;
+
+          <div class="col-lg-12 text-center">
+            <div id="success"></div>
+            <a href='{{ URL::to("/home")}}'><button id="backbutton" class="btn btn-primary btn-xl text-uppercase" type="button">BACK</button></a>
+          </div>
+        </div>
       </div>
     </section>
 
-@endsection
+  @endsection
