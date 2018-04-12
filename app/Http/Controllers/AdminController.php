@@ -75,6 +75,12 @@ class AdminController extends Controller
          ->select('image.*')
          ->first();
          return view('addstoremessage',['wallpaper'=>$wallpaper]);
+     }  );
+
+         $wallpaper = DB::table('image')
+         ->select('image.*')
+         ->first();
+         return view('addstoremessage',['wallpaper'=>$wallpaper]);
      }
      public function availablesummary()
      {
