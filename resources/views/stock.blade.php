@@ -89,6 +89,7 @@ $(document).ready(function(){
                     <th>Quantity</th>
                     <th>Date Received</th>
                     <th>Image</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -101,9 +102,12 @@ $(document).ready(function(){
                       <td>{{$row->Name}}</td>
                       <td>{{$row->Quantity}}</td>
                       <td>{{$row->create_dt}}</td>
-                      <td><a href="http://localhost/NARS20180304/public{{ $row->Web_Path }}" target="_blank">
-                          <img src="http://localhost/NARS20180304/public{{ $row->Web_Path }}" class="responsive" height="50" width="50"/>
+                      <td><a href="{{URL($row->Web_Path) }}" target="_blank">
+                          <img src="{{URL($row->Web_Path) }}" class="responsive" height="50" width="50"/>
                           </a></td>
+                        <td><a href="{{URL::to('displaystock')}}/{{$row->ALU}}">Edit</a> &nbsp;
+                        <a onclick="return confirm('Are you sure you want to delete this {{$row->Name}}?')" href="{{URL::to('deletestock')}}/{{$row->ALU}}">Delete</a>
+                        </td>
                   @endforeach
                     </tr>
                   <!-- <tr>

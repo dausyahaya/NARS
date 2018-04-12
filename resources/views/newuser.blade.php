@@ -81,6 +81,7 @@ $(document).ready(function(){
                         <th style="width=300px">Email</th>
                         <th style="width=300px">User Type</th>
                         <th style="width=300px">Date Created</th>
+                        <th style="width=300px">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -95,6 +96,9 @@ $(document).ready(function(){
                               <td>{{$row->email}}</td>
                               <td>{{$row->usertype}}</td>
                               <td>{{$row->created_at}}</td>
+                              <td><a href="{{Url('displayuser')}}/{{$row->id}}">Edit</a> &nbsp;
+                              <a onclick="return confirm('Are you sure you want to delete this {{$row->name}}?')" href="{{URL::to('deleteuser')}}/{{$row->id}}">Delete</a>
+                              </td>
                           </tr>
                       @endforeach
 
@@ -120,23 +124,20 @@ $(document).ready(function(){
         </div>
       </div>
     </section>
+<script>
 
-    <script>
+function checkPasswordMatch() {
+  var password = $("#password").val();
+  var confirmPassword = $("#password-confirm").val();
 
-            function checkPasswordMatch() {
-            var password = $("#password").val();
-            var confirmPassword = $("#password-confirm").val();
+  if (password != confirmPassword)
+      $("#divCheckPasswordMatch").html("Passwords do not match!");
+  else
+      $("#divCheckPasswordMatch").html("Passwords match.");
+  }
 
-            if (password != confirmPassword)
-                $("#divCheckPasswordMatch").html("Passwords do not match!");
-            else
-                $("#divCheckPasswordMatch").html("Passwords match.");
-        }
-
-        $(document).ready(function () {
-           $("#password-confirm").keyup(checkPasswordMatch);
-        });
-
-    </script>
-
+$(document).ready(function () {
+  $("#password-confirm").keyup(checkPasswordMatch);
+});
+</script>
   @endsection
