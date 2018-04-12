@@ -365,13 +365,16 @@ class HomeController extends Controller
         ->select('image.*')
         ->first();
     
-        $data=DB::table('sales_item_summary')
+        $data=DB::table('stocks')
         ->inRandomOrder()
-        ->where('Qty_Sold','>', 0)
+        ->where('Quantity','>', 0)
         ->take(20)
         ->get();
         
-        return view ('redemptgift', ['store'=>$store,'redemptgift'=>$redemptgift,'current'=>$current,'wallpaper'=>$wallpaper],['data' =>$data]);
+        $product_img=DB::table('redemption_image')
+        ->select("redemption_image.*")
+        ->get();
+        return view ('redemptgift', ['store'=>$store,'redemptgift'=>$redemptgift,'current'=>$current,'wallpaper'=>$wallpaper,'data' =>$data,'product_img' =>$product_img]);
     }
     public function redemptvalidate(Request $request)
     {   
