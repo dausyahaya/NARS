@@ -64,8 +64,8 @@
             <div class="clearfix"></div>
             <div class="col-lg-12 text-center">
               <div id="success" style="padding-top: 70px;"></div>
-              <a href='{{ URL::to("/memberlogin")}}'><button id="member" class="btn btn-primary btn-xl text-uppercase" type="button" style="width:300px;height:200px">Member</button></a>
-              <a href='{{ URL::to("/memberregister")}}'><button id="newmember" class="btn btn-primary btn-xl text-uppercase" type="button" style="width:300px;height:200px">New Member</button></a>
+              <a href='{{ URL::to("/membercategory")}}'><button id="member" class="btn btn-primary btn-xl text-uppercase" type="button" style="width:300px;height:200px">Membership</button></a>
+              <a href='{{ URL::to("/storemgtcategory")}}'><button id="newmember" class="btn btn-primary btn-xl text-uppercase" type="button" style="width:300px;height:200px">Store Management</button></a>
 
             </div>
           </div>
