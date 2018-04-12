@@ -39,7 +39,7 @@ $(document).ready(function(){
     </div>
     <div class="row">
       <div class="col-lg-12">
-        <form method="POST" action="{{URL('/newstock')}}">
+        <form enctype="multipart/form-data" method="POST" action="{{URL('/newstock')}}">
           <div class="row">
               <div class="form-group">
                   {{ csrf_field() }}
@@ -56,13 +56,14 @@ $(document).ready(function(){
                 @foreach($users as $index => $row)
                 <input class="form-control" id="store_id" name="store_id" value="{{$row->store_id}}" type="hidden">
                 @endforeach
+                <input type="file" name="stock_img" required/>
               </div>
 
 
             <div class="clearfix"></div>
             <div class="col-lg-12 text-center">
               <div id="success"></div>
-              <input type="file" id="myFile">
+
               <button id="stockButton" class="btn btn-primary btn-xl text-uppercase" type="submit">Receive</button>
             </div>
           </div>
@@ -86,6 +87,7 @@ $(document).ready(function(){
                     <th>ALU</th>
                     <th>Name</th>
                     <th>Quantity</th>
+                    <th>Date Received</th>
                     <th>Image</th>
                   </tr>
                 </thead>
@@ -98,7 +100,10 @@ $(document).ready(function(){
                       <td>{{$row->ALU}}</td>
                       <td>{{$row->Name}}</td>
                       <td>{{$row->Quantity}}</td>
-                      <td></td>
+                      <td>{{$row->create_dt}}</td>
+                      <td><a href="http://localhost/NARS20180304/public{{ $row->Web_Path }}" target="_blank">
+                          <img src="http://localhost/NARS20180304/public{{ $row->Web_Path }}" class="responsive" height="50" width="50"/>
+                          </a></td>
                   @endforeach
                     </tr>
                   <!-- <tr>
@@ -114,6 +119,4 @@ $(document).ready(function(){
     </div>
   </div>
 </section>
-
-
 @endsection
