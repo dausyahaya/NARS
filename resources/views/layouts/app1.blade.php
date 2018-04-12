@@ -42,7 +42,7 @@
     border-color: #da2839;
     }
     </style>
-
+<link rel="shortcut icon" href="{{{ asset('/private/upload/User/NARS_logo.png') }}}" sizes="114x114" type="image/gif">
   </head>
 
   <body id="page-top">
