@@ -173,14 +173,6 @@ class HomeController extends Controller
 
         return view('register',['wallpaper'=>$wallpaper]);
     }
-    public function register()
-    {
-      $wallpaper = DB::table('image')
-      ->select('image.*')
-      ->first();
-
-        return view('register',['wallpaper'=>$wallpaper]);
-    }
     public function promocode()
     {
         $user = Auth::user();
