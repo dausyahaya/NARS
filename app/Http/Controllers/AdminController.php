@@ -132,10 +132,10 @@ class AdminController extends Controller
        $stock = DB::table('stocks')
            ->join('users', 'users.store_id', '=', 'stocks.store_id')
            // ->where('users.store_id','=',$user->store_id)
-           ->select('stocks.DCS_Code', 'stocks.UPC', 'stocks.ALU', 'stocks.Name', 'stocks.Quantity', 'users.store_id')
+           ->select('stocks.DCS_Code', 'stocks.UPC', 'stocks.ALU', 'stocks.Name', 'stocks.Quantity', 'stocks.create_dt', 'stocks.File_Name', 'stocks.Web_Path', 'users.store_id')
 
            // ->groupby('DCS_Code')
-           // ->orderby('Customer_Name','ASC')
+           ->orderby('stocks.create_dt','DESC')
            // ->take('20')
            ->get();
        $users = DB::table('users')
@@ -149,6 +149,16 @@ class AdminController extends Controller
      {
        $input = $request->all();
        $user = Auth::user();
+       $type="User";
+       $uploadcount=1;
+
+         $file = $request->file('stock_img');
+         $destinationPath=public_path()."/private/upload/User";
+         $extension = $file->getClientOriginalExtension();
+         $originalName=$file->getClientOriginalName();
+         $fileSize=$file->getSize();
+         $fileName=time()."_".$uploadcount.".".$extension;
+         $upload_success = $file->move($destinationPath, $fileName);
 
          $id = DB::table('stocks')->insertGetId(
            [
@@ -158,6 +168,11 @@ class AdminController extends Controller
              'Name' => $input["itemname"],
              'Quantity' => $input["quantity"],
              'store_id' => $input["store_id"],
+             // 'create_dt' => Carbon::now(),
+             'Type' => $type,
+             'File_Name' => $originalName,
+             'File_Size' => $fileSize,
+             'Web_Path' => '/private/upload/User/'.$fileName
            ]
          );
 
@@ -168,10 +183,10 @@ class AdminController extends Controller
          $stock = DB::table('stocks')
              ->join('users', 'users.store_id', '=', 'stocks.store_id')
              // ->where('users.store_id','=',$user->store_id)
-             ->select('stocks.DCS_Code', 'stocks.UPC', 'stocks.ALU', 'stocks.Name', 'stocks.Quantity', 'users.store_id')
+             ->select('stocks.DCS_Code', 'stocks.UPC', 'stocks.ALU', 'stocks.Name', 'stocks.Quantity', 'stocks.create_dt', 'stocks.File_Name', 'stocks.Web_Path', 'users.store_id')
 
              // ->groupby('DCS_Code')
-             // ->orderby('Customer_Name','ASC')
+             ->orderby('stocks.create_dt','DESC')
              // ->take('20')
              ->get();
          $users = DB::table('users')
@@ -180,6 +195,7 @@ class AdminController extends Controller
              ->get();
 
          return view('stock',['wallpaper'=>$wallpaper], ['stock'=>$stock])->with(['users'=>$users]);
+
      }
      public function changewallpaper()
      {
