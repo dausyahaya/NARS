@@ -194,6 +194,7 @@
         <input type="hidden" name="product_value"  id='product_value'/>
         <input type="hidden" name="product_dcs"  id='product_dcs'/>
         <input type="hidden" name="cust_id" value="{{Session::get('cust_id')}}" />
+        <input type="hidden" name="store_id" value="{{$store->store_id}}">
         <div name="detail" id="detail"><h1></h1></div>
         <div class="clearfix"></div>
         <div class="col-lg-12 text-center" style="top:34px;">
@@ -232,7 +233,6 @@
               <div class="form-group">
               <img src="{{url($img->Web_Path)}}" width="200px" height="200px">
               </div>
-              
             </div>
             @endforeach
             <div class="clearfix"></div>
