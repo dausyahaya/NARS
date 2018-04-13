@@ -65,7 +65,7 @@ Route::get('summarySNumCust', 'AdminController@summarySNumCust'); //sales8
 Route::get('newuser', 'AdminController@newuser');
 Route::get('displayuser/{id}',['uses'=>'AdminController@displayuser']);
 Route::post('edituser','AdminController@edituser');
-Route::get('deleteuser/{id}',['uses'=>'AdminController@deleteuser']);
+Route::get('deleteuser/{id}/{store_id}',['uses'=>'AdminController@deleteuser']);
 Route::get('addusermessage', 'AdminController@addusermessage');
 Route::get('addstoremessage', 'AdminController@addstoremessage');
 Route::get('stock',  'AdminController@stock');
