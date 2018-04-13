@@ -96,8 +96,8 @@ $(document).ready(function(){
                               <td>{{$row->email}}</td>
                               <td>{{$row->usertype}}</td>
                               <td>{{$row->created_at}}</td>
-                              <td><a href="{{Url('displayuser')}}/{{$row->id}}">Edit</a> &nbsp;
-                              <a onclick="return confirm('Are you sure you want to delete this {{$row->name}}?')" href="{{URL::to('deleteuser')}}/{{$row->id}}">Delete</a>
+                              <td><a href="{{Url('displayuser')}}/{{$row->id}}">Edit</a> &nbsp;        
+                              <a onclick="return confirm('Are you sure you want to delete this {{$row->name}}?')" href="{{URL::to('deleteuser')}}/{{$row->id}}/{{$row->store_id}}">Delete</a>
                               </td>
                           </tr>
                       @endforeach
