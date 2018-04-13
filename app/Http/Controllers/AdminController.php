@@ -165,12 +165,19 @@ class AdminController extends Controller
         ->update(['name'=>$input['username'],'email'=>$input['useremail']]);
         return $this->newuser();
      }
-     public function deleteuser($id)
-     {
+     public function deleteuser($id,$store_id)
+     {   
+         
          DB::table('users')
          ->where('id',$id)
          ->delete();
-         return $this->newuser();
+        if($store_id != 0)
+        {
+         DB::table('store_list')
+         ->where('Store',$store_id)
+         ->delete();
+        }
+         return back();
      }
      public function addusermessage()
      {
