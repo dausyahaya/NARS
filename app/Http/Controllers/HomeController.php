@@ -455,6 +455,7 @@ class HomeController extends Controller
                   'redemption_dt' => Carbon::now('Asia/Kuala_Lumpur'),
                   'method' => $input["method"],
                   'customer_id' => $input['cust_id'],
+                  'store' => $input['store_id']
                 ]
               );
             DB::table('stocks')
